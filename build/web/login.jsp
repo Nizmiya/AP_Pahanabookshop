@@ -249,6 +249,38 @@
                 line-height: 1.5;
             }
 
+            /* Registration form specific styles */
+            #registerForm .form-title {
+                font-size: 2rem;
+                margin-bottom: 6px;
+            }
+
+            #registerForm .form-subtitle {
+                font-size: 0.9rem;
+                margin-bottom: 20px;
+                line-height: 1.4;
+            }
+
+            #registerForm .form-group {
+                margin-bottom: 15px;
+            }
+
+            #registerForm .form-control {
+                padding: 12px 15px;
+                font-size: 14px;
+            }
+
+            #registerForm .btn-login {
+                padding: 12px 20px;
+                font-size: 14px;
+            }
+
+            #registerForm .alert {
+                font-size: 0.8rem;
+                margin-bottom: 15px;
+                padding: 10px 15px;
+            }
+
             .form-group {
                 margin-bottom: 20px;
             }
@@ -435,6 +467,19 @@
                 .form-title {
                     font-size: 2rem;
                 }
+
+                #registerForm .form-title {
+                    font-size: 1.8rem;
+                }
+
+                #registerForm .form-group {
+                    margin-bottom: 15px;
+                }
+
+                #registerForm .form-control {
+                    padding: 12px 15px;
+                    font-size: 14px;
+                }
             }
         </style>
     </head>
@@ -525,7 +570,7 @@
                             </div>
 
                             <div class="form-group">
-                                <textarea class="form-control" id="regAddress" name="address" rows="3" placeholder="Address..........." required></textarea>
+                                <textarea class="form-control" id="regAddress" name="address" rows="2" placeholder="Address..........." required></textarea>
                             </div>
 
                             <div class="form-group">
@@ -545,7 +590,7 @@
                                 </div>
                             </div>
 
-                            <div class="alert alert-info" style="font-size: 0.9rem; margin-bottom: 20px;">
+                            <div class="alert alert-info" style="font-size: 0.8rem; margin-bottom: 15px; padding: 10px 15px;">
                                 <i class="bi bi-info-circle me-2"></i>
                                 <strong>Note:</strong> Account number will be automatically generated when you register.
                             </div>
