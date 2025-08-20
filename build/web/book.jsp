@@ -636,9 +636,11 @@
                 <div class="content-card">
                     <h3 class="card-title">
                         <span><i class="bi bi-book me-2"></i>Book Management</span>
+                        <% if (!"CASHIER".equals(role)) { %>
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addBookModal">
                             <i class="bi bi-plus-circle me-2" style="color: white;"></i>Add Book
                         </button>
+                        <% } %>
                     </h3>
                     
                     <!-- Search Bar -->
@@ -701,6 +703,7 @@
                                     </td>
                                     <td><%= book.getCreatedBy().getUsername() %></td>
                                     <td>
+                                        <% if (!"CASHIER".equals(role)) { %>
                                         <button class="btn btn-sm btn-outline-primary" 
                                                 onclick="editBook(<%= book.getBookId() %>)">
                                             <i class="bi bi-pencil"></i> Edit
@@ -709,6 +712,9 @@
                                                 onclick="deleteBook(<%= book.getBookId() %>, '<%= book.getTitle() %>')">
                                             <i class="bi bi-trash"></i> Delete
                                         </button>
+                                        <% } else { %>
+                                        <span class="text-muted">View Only</span>
+                                        <% } %>
                                     </td>
                                 </tr>
                                 <%

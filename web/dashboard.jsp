@@ -317,20 +317,20 @@
             .stats-grid {
                 display: grid;
                 grid-template-columns: repeat(4, 1fr);
-                gap: 1.5rem;
-                margin-bottom: 2rem;
+                gap: 1rem;
+                margin-bottom: 1.5rem;
             }
 
             .stat-card {
                 background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
-                border-radius: 20px;
-                padding: 2rem 1.5rem;
-                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+                border-radius: 15px;
+                padding: 1.5rem 1rem;
+                box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
                 border: none;
                 transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
                 position: relative;
                 overflow: hidden;
-                min-height: 160px;
+                min-height: 120px;
                 backdrop-filter: blur(10px);
             }
 
@@ -397,7 +397,7 @@
                 display: flex;
                 justify-content: space-between;
                 align-items: flex-start;
-                margin-bottom: 1.5rem;
+                margin-bottom: 1rem;
                 position: relative;
                 z-index: 2;
             }
@@ -412,15 +412,15 @@
             }
 
             .stat-icon {
-                width: 48px;
-                height: 48px;
-                border-radius: 16px;
+                width: 40px;
+                height: 40px;
+                border-radius: 12px;
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                font-size: 1.3rem;
+                font-size: 1.1rem;
                 color: var(--white);
-                box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+                box-shadow: 0 6px 20px rgba(0,0,0,0.15);
                 position: relative;
                 z-index: 2;
                 transition: all 0.3s ease;
@@ -452,13 +452,13 @@
             }
 
             .stat-value {
-                font-size: 2.2rem;
+                font-size: 1.8rem;
                 font-weight: 900;
                 background: linear-gradient(135deg, #2c3e50, #34495e);
                 -webkit-background-clip: text;
                 -webkit-text-fill-color: transparent;
                 background-clip: text;
-                margin-bottom: 0.75rem;
+                margin-bottom: 0.5rem;
                 line-height: 1;
                 position: relative;
                 z-index: 2;
@@ -467,10 +467,10 @@
             .stat-change {
                 display: flex;
                 align-items: center;
-                font-size: 0.75rem;
+                font-size: 0.7rem;
                 font-weight: 700;
-                padding: 0.5rem 1rem;
-                border-radius: 12px;
+                padding: 0.4rem 0.8rem;
+                border-radius: 10px;
                 background: linear-gradient(135deg, rgba(91, 180, 80, 0.1), rgba(70, 146, 60, 0.1));
                 color: var(--secondary-color);
                 width: fit-content;
@@ -512,8 +512,8 @@
             .charts-section {
                 display: grid;
                 grid-template-columns: 1fr;
-                gap: 1.5rem;
-                margin-bottom: 2rem;
+                gap: 1rem;
+                margin-bottom: 1.5rem;
             }
 
             .chart-container-wrapper {
@@ -649,8 +649,8 @@
 
             .chart-card {
                 background: var(--white);
-                border-radius: 20px;
-                padding: 2rem;
+                border-radius: 15px;
+                padding: 1.5rem;
                 box-shadow: var(--shadow);
                 border: 1px solid var(--border-color);
                 position: relative;
@@ -668,10 +668,10 @@
             }
 
             .chart-title {
-                font-size: 1.4rem;
+                font-size: 1.2rem;
                 font-weight: 700;
                 color: var(--dark-text);
-                margin-bottom: 1.5rem;
+                margin-bottom: 1rem;
                 display: flex;
                 align-items: center;
                 gap: 0.75rem;
@@ -931,7 +931,7 @@
                                 <i class="bi bi-graph-up"></i>
                                 Transaction Sales (Last 30 Days)
                             </h3>
-                            <div class="chart-container" style="position: relative; height: 350px;">
+                            <div class="chart-container" style="position: relative; height: 300px;">
                                 <canvas id="salesChart"></canvas>
                             </div>
                         </div>

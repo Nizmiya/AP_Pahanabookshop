@@ -38,7 +38,7 @@ public class ChartServlet extends HttpServlet {
         String action = request.getParameter("action");
         HttpSession session = request.getSession(false);
         
-        if (session == null || session.getAttribute("user") == null) {
+        if (session == null || session.getAttribute("username") == null) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             response.getWriter().write("{\"error\": \"Please login first.\"}");
             return;
@@ -55,8 +55,12 @@ public class ChartServlet extends HttpServlet {
     private void handleTransactionSalesChart(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
+            System.out.println("ChartServlet: Starting to fetch transaction sales data...");
+            
             // Get transaction data for the last 30 days
             List<Map<String, Object>> transactionData = facade.getTransactionSalesData(30);
+            
+            System.out.println("ChartServlet: Fetched " + transactionData.size() + " data points");
             
             StringBuilder jsonBuilder = new StringBuilder();
             jsonBuilder.append("{\"success\":true,\"labels\":[");
@@ -90,9 +94,14 @@ public class ChartServlet extends HttpServlet {
             
             jsonBuilder.append("]}");
             
-            response.getWriter().write(jsonBuilder.toString());
+            String jsonResponse = jsonBuilder.toString();
+            System.out.println("ChartServlet: Sending JSON response: " + jsonResponse);
+            
+            response.getWriter().write(jsonResponse);
             
         } catch (Exception e) {
+            System.err.println("ChartServlet: Error occurred: " + e.getMessage());
+            e.printStackTrace();
             eventManager.logEvent("Chart data error: " + e.getMessage(), "ERROR");
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response.getWriter().write("{\"error\": \"Error loading chart data: " + e.getMessage() + "\"}");

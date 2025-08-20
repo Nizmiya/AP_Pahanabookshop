@@ -174,8 +174,37 @@ public class FacadeDP {
     }
     
     public List<Map<String, Object>> getTransactionSalesData(int days) {
-        // Placeholder - actual data retrieval handled by servlets
-        return new ArrayList<>();
+        List<Map<String, Object>> salesData = new ArrayList<>();
+        
+        try {
+            java.sql.Connection conn = com.booking.DatabaseUtil.getConnection();
+            String sql = "SELECT DATE(created_at) as sale_date, SUM(total_amount) as daily_total " +
+                        "FROM transactions " +
+                        "WHERE created_at >= DATE_SUB(CURDATE(), INTERVAL ? DAY) " +
+                        "GROUP BY DATE(created_at) " +
+                        "ORDER BY sale_date";
+            
+            java.sql.PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, days);
+            java.sql.ResultSet rs = stmt.executeQuery();
+            
+            while (rs.next()) {
+                Map<String, Object> dayData = new HashMap<>();
+                dayData.put("created_at", rs.getTimestamp("sale_date"));
+                dayData.put("total_amount", rs.getDouble("daily_total"));
+                salesData.add(dayData);
+            }
+            
+            rs.close();
+            stmt.close();
+            conn.close();
+            
+        } catch (Exception e) {
+            System.err.println("Error fetching transaction sales data: " + e.getMessage());
+            e.printStackTrace();
+        }
+        
+        return salesData;
     }
     
     // User Role Management Methods - Placeholder implementations
@@ -256,16 +285,76 @@ public class FacadeDP {
         return false;
     }
     
-    // Dashboard Statistics Method - Placeholder implementation
+    // Dashboard Statistics Method - Real implementation
     public DashboardStats getDashboardStats() {
         DashboardStats stats = new DashboardStats();
         
-        // Placeholder values - actual stats handled by servlets
-        stats.setTotalBooks(0);
-        stats.setTotalCustomers(0);
-        stats.setTotalTransactions(0);
-        stats.setTotalUsers(0);
-        stats.setTotalRevenue(0.0);
+        try {
+            java.sql.Connection conn = com.booking.DatabaseUtil.getConnection();
+            
+            // Get total books
+            String booksSql = "SELECT COUNT(*) as total FROM books";
+            java.sql.PreparedStatement booksStmt = conn.prepareStatement(booksSql);
+            java.sql.ResultSet booksRs = booksStmt.executeQuery();
+            if (booksRs.next()) {
+                stats.setTotalBooks(booksRs.getInt("total"));
+            }
+            booksRs.close();
+            booksStmt.close();
+            
+            // Get total customers
+            String customersSql = "SELECT COUNT(*) as total FROM customers";
+            java.sql.PreparedStatement customersStmt = conn.prepareStatement(customersSql);
+            java.sql.ResultSet customersRs = customersStmt.executeQuery();
+            if (customersRs.next()) {
+                stats.setTotalCustomers(customersRs.getInt("total"));
+            }
+            customersRs.close();
+            customersStmt.close();
+            
+            // Get total transactions
+            String transactionsSql = "SELECT COUNT(*) as total FROM transactions";
+            java.sql.PreparedStatement transactionsStmt = conn.prepareStatement(transactionsSql);
+            java.sql.ResultSet transactionsRs = transactionsStmt.executeQuery();
+            if (transactionsRs.next()) {
+                stats.setTotalTransactions(transactionsRs.getInt("total"));
+            }
+            transactionsRs.close();
+            transactionsStmt.close();
+            
+            // Get total users
+            String usersSql = "SELECT COUNT(*) as total FROM users";
+            java.sql.PreparedStatement usersStmt = conn.prepareStatement(usersSql);
+            java.sql.ResultSet usersRs = usersStmt.executeQuery();
+            if (usersRs.next()) {
+                stats.setTotalUsers(usersRs.getInt("total"));
+            }
+            usersRs.close();
+            usersStmt.close();
+            
+            // Get total revenue
+            String revenueSql = "SELECT SUM(total_amount) as total FROM transactions";
+            java.sql.PreparedStatement revenueStmt = conn.prepareStatement(revenueSql);
+            java.sql.ResultSet revenueRs = revenueStmt.executeQuery();
+            if (revenueRs.next()) {
+                double totalRevenue = revenueRs.getDouble("total");
+                stats.setTotalRevenue(totalRevenue);
+            }
+            revenueRs.close();
+            revenueStmt.close();
+            
+            conn.close();
+            
+        } catch (Exception e) {
+            System.err.println("Error fetching dashboard stats: " + e.getMessage());
+            e.printStackTrace();
+            // Set default values if there's an error
+            stats.setTotalBooks(0);
+            stats.setTotalCustomers(0);
+            stats.setTotalTransactions(0);
+            stats.setTotalUsers(0);
+            stats.setTotalRevenue(0.0);
+        }
         
         return stats;
     }
