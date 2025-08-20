@@ -900,6 +900,24 @@
                 
                 document.getElementById('transactionCount').textContent = visibleCount + ' transactions found';
             });
+
+            // Function to close message alerts
+            function closeMessage(messageId) {
+                const messageElement = document.getElementById(messageId);
+                if (messageElement) {
+                    messageElement.style.display = 'none';
+                }
+            }
+
+            // Auto-hide success messages after 5 seconds
+            document.addEventListener('DOMContentLoaded', function() {
+                const successMessage = document.getElementById('successMessage');
+                if (successMessage) {
+                    setTimeout(function() {
+                        successMessage.style.display = 'none';
+                    }, 5000);
+                }
+            });
         </script>
     </body>
 </html> 
