@@ -147,10 +147,6 @@
                 text-decoration: none;
                 box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
             }
-                font-weight: 500;
-                position: relative;
-                overflow: hidden;
-            }
 
             .nav-link::before {
                 content: '';
@@ -422,29 +418,29 @@
             }
 
             .btn-outline-success {
-                background: transparent;
-                border: 2px solid var(--success-color);
                 color: var(--success-color);
-                transition: all 0.3s ease;
+                border: 2px solid var(--success-color);
+                background: transparent;
             }
 
             .btn-outline-success:hover {
                 background: var(--success-color);
                 color: var(--white);
-                transform: translateY(-1px);
+                transform: translateY(-2px);
+                box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
             }
 
             .btn-outline-primary {
-                background: transparent;
-                border: 2px solid var(--secondary-color);
                 color: var(--secondary-color);
-                transition: all 0.3s ease;
+                border: 2px solid var(--secondary-color);
+                background: transparent;
             }
 
             .btn-outline-primary:hover {
                 background: var(--secondary-color);
                 color: var(--white);
-                transform: translateY(-1px);
+                transform: translateY(-2px);
+                box-shadow: 0 4px 15px rgba(70, 146, 60, 0.3);
             }
 
             .btn-sm {
@@ -470,8 +466,8 @@
             .form-control {
                 border: 2px solid var(--border-color);
                 border-radius: 12px;
-                padding: 1rem 1.25rem;
-                font-size: 1rem;
+                padding: 0.75rem 1rem;
+                font-size: 0.9rem;
                 transition: all 0.3s ease;
                 background: var(--white);
                 color: var(--dark-text);
@@ -514,11 +510,12 @@
                 border-left: none;
             }
 
-            /* Modern Table Styles */
+            /* Simple Table Styles */
             .table-responsive {
-                border-radius: 15px;
+                border-radius: 8px;
                 overflow: hidden;
-                box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+                border: 1px solid #e0e0e0;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.08);
             }
 
             .table {
@@ -527,35 +524,29 @@
             }
 
             .table thead th {
-                background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-                color: var(--white);
-                font-weight: 600;
+                background: #e9ecef;
+                color: #2c3e50;
+                border: none;
+                padding: 0.75rem 1rem;
+                font-weight: 700;
+                font-size: 0.9rem;
                 text-transform: uppercase;
                 letter-spacing: 0.5px;
-                border: none;
-                padding: 1.25rem 1rem;
-                position: relative;
-            }
-
-            .table thead th::after {
-                content: '';
-                position: absolute;
-                bottom: 0;
-                left: 0;
-                right: 0;
-                height: 2px;
-                background: var(--accent-color);
+                border-bottom: 2px solid #dee2e6;
             }
 
             .table tbody tr {
-                transition: all 0.3s ease;
-                border-bottom: 1px solid rgba(91, 180, 80, 0.1);
+                border-bottom: 1px solid #f1f3f4;
+                transition: background-color 0.2s ease;
+                background: var(--white);
+            }
+
+            .table tbody tr:nth-child(even) {
+                background: #f8f9fa;
             }
 
             .table tbody tr:hover {
-                background: linear-gradient(135deg, rgba(91, 180, 80, 0.05), rgba(70, 146, 60, 0.05));
-                transform: translateY(-1px);
-                box-shadow: 0 4px 15px rgba(91, 180, 80, 0.1);
+                background: #e9ecef;
             }
 
             .table tbody tr:last-child {
@@ -563,16 +554,17 @@
             }
 
             .table tbody td {
-                padding: 1.25rem 1rem;
-                vertical-align: middle;
+                padding: 0.75rem 1rem;
                 border: none;
-                color: var(--dark-text);
-                font-weight: 500;
+                vertical-align: middle;
+                font-size: 0.9rem;
+                color: #495057;
             }
 
             .table tbody td:first-child {
                 font-weight: 600;
-                color: var(--secondary-color);
+                color: #007bff;
+                font-size: 0.9rem;
             }
 
             /* Badge Styles */
@@ -844,7 +836,7 @@
                             Stock Management
                         </span>
                         <a href="StockServlet?action=list" class="btn btn-primary">
-                            <i class="bi bi-arrow-clockwise"></i> Refresh
+                            <i class="bi bi-arrow-clockwise" style="color: white;"></i> Refresh
                         </a>
                     </div>
                     
@@ -879,15 +871,19 @@
                                             <input type="number" class="form-control add-stock-input" 
                                                    id="addStock_<%= book.getBookId() %>" 
                                                    placeholder="0" min="0" value="0">
-                                            <button class="btn btn-outline-success btn-sm" 
-                                                    onclick="addStock(<%= book.getBookId() %>, '<%= book.getTitle() %>', <%= book.getStockQuantity() %>)">
+                                            <button class="btn btn-outline-success btn-sm add-stock-btn" 
+                                                    data-book-id="<%= book.getBookId() %>" 
+                                                    data-book-title="<%= book.getTitle() %>" 
+                                                    data-current-stock="<%= book.getStockQuantity() %>">
                                                 <i class="bi bi-plus-circle"></i> Add
                                             </button>
                                         </div>
                                     </td>
                                     <td>
-                                        <button class="btn btn-outline-primary btn-sm" 
-                                                onclick="editStock(<%= book.getBookId() %>, '<%= book.getTitle() %>', <%= book.getStockQuantity() %>)">
+                                        <button class="btn btn-outline-primary btn-sm edit-stock-btn" 
+                                                data-book-id="<%= book.getBookId() %>" 
+                                                data-book-title="<%= book.getTitle() %>" 
+                                                data-current-stock="<%= book.getStockQuantity() %>">
                                             <i class="bi bi-pencil"></i> Update Stock
                                         </button>
                                     </td>
@@ -1012,6 +1008,29 @@
                 document.body.appendChild(form);
                 form.submit();
             }
+
+            // Event listeners for stock management buttons
+            document.addEventListener('DOMContentLoaded', function() {
+                // Add stock button event listeners
+                document.querySelectorAll('.add-stock-btn').forEach(function(button) {
+                    button.addEventListener('click', function() {
+                        const bookId = this.getAttribute('data-book-id');
+                        const bookTitle = this.getAttribute('data-book-title');
+                        const currentStock = parseInt(this.getAttribute('data-current-stock'));
+                        addStock(bookId, bookTitle, currentStock);
+                    });
+                });
+
+                // Edit stock button event listeners
+                document.querySelectorAll('.edit-stock-btn').forEach(function(button) {
+                    button.addEventListener('click', function() {
+                        const bookId = this.getAttribute('data-book-id');
+                        const bookTitle = this.getAttribute('data-book-title');
+                        const currentStock = parseInt(this.getAttribute('data-current-stock'));
+                        editStock(bookId, bookTitle, currentStock);
+                    });
+                });
+            });
         </script>
     </body>
 </html> 

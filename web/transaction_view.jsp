@@ -147,10 +147,6 @@
                 text-decoration: none;
                 box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
             }
-                font-weight: 500;
-                position: relative;
-                overflow: hidden;
-            }
 
             .nav-link::before {
                 content: '';

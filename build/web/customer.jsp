@@ -147,6 +147,9 @@
                 text-decoration: none;
                 box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
             }
+
+            .nav-link {
+                position: relative;
                 overflow: hidden;
             }
 
@@ -530,12 +533,12 @@
                 margin-left: -2px;
             }
 
-            /* Modern Table Styles */
+            /* Simple Table Styles */
             .table-responsive {
-                border-radius: 15px;
+                border-radius: 8px;
                 overflow: hidden;
-                border: 1px solid var(--border-color);
-                box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+                border: 1px solid #e0e0e0;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.08);
             }
 
             .table {
@@ -544,38 +547,29 @@
             }
 
             .table thead th {
-                background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-                color: var(--white);
+                background: #f8f9fa;
+                color: #495057;
                 border: none;
-                padding: 1.25rem 1.5rem;
-                font-weight: 700;
-                font-size: 0.9rem;
-                text-transform: uppercase;
-                letter-spacing: 1px;
-                text-shadow: 0 1px 2px rgba(0,0,0,0.2);
-                position: relative;
-            }
-
-            .table thead th::after {
-                content: '';
-                position: absolute;
-                bottom: 0;
-                left: 0;
-                right: 0;
-                height: 2px;
-                background: linear-gradient(90deg, var(--accent-color), var(--secondary-color));
+                padding: 0.75rem 1rem;
+                font-weight: 600;
+                font-size: 0.85rem;
+                text-transform: none;
+                letter-spacing: normal;
+                border-bottom: 2px solid #dee2e6;
             }
 
             .table tbody tr {
-                border-bottom: 1px solid rgba(91, 180, 80, 0.1);
-                transition: all 0.3s ease;
+                border-bottom: 1px solid #f1f3f4;
+                transition: background-color 0.2s ease;
                 background: var(--white);
             }
 
+            .table tbody tr:nth-child(even) {
+                background: #f8f9fa;
+            }
+
             .table tbody tr:hover {
-                background: linear-gradient(135deg, rgba(91, 180, 80, 0.05), rgba(70, 146, 60, 0.05));
-                transform: scale(1.01);
-                box-shadow: 0 4px 15px rgba(91, 180, 80, 0.1);
+                background: #e9ecef;
             }
 
             .table tbody tr:last-child {
@@ -583,17 +577,17 @@
             }
 
             .table tbody td {
-                padding: 1rem 1.5rem;
+                padding: 0.75rem 1rem;
                 border: none;
                 vertical-align: middle;
-                font-size: 0.95rem;
-                color: var(--dark-text);
+                font-size: 0.9rem;
+                color: #495057;
             }
 
             .table tbody td:first-child {
-                font-weight: 700;
-                color: var(--primary-color);
-                font-size: 1rem;
+                font-weight: 600;
+                color: #007bff;
+                font-size: 0.9rem;
             }
 
             /* Email verification styles */
@@ -969,98 +963,113 @@
                 </div>
                 <% } %>
 
-                <!-- Add Customer Form -->
-                <div class="content-card">
-                    <h3 class="card-title">
-                        <span><i class="bi bi-person-plus me-2"></i>Add New Customer</span>
+                <!-- Add Customer Form - New Style -->
+                <div class="content-card" style="background: white; border: 1px solid #e9ecef; color: #2c3e50;">
+                    <h3 class="card-title" style="color: #2c3e50; text-align: center; margin-bottom: 2rem;">
+                        <span><i class="bi bi-person-plus-fill me-2" style="color: #46923c;"></i>Register New Customer</span>
                     </h3>
                     
-
-                    
-                    <form action="CustomerServlet" method="post">
+                    <form action="CustomerServlet" method="post" style="max-width: 900px; margin: 0 auto;">
                         <input type="hidden" name="action" value="create">
                         <input type="hidden" name="email" id="hiddenEmail">
                         
                         <div class="row">
+                            <!-- Personal Information Section - Left Side -->
                             <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="name" class="form-label">Customer Name</label>
-                                    <input type="text" class="form-control" id="name" name="name" required>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="phone" class="form-label">Phone Number</label>
-                                    <input type="tel" class="form-control" id="phone" name="phone" required>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label for="address" class="form-label">Address</label>
-                                    <textarea class="form-control" id="address" name="address" rows="3" required></textarea>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="username" class="form-label">Username</label>
-                                    <input type="text" class="form-control" id="username" name="username" required>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="email" class="form-label">Email</label>
-                                    <div class="input-group">
-                                        <input type="email" class="form-control" id="email" name="email" required>
-                                        <button class="btn btn-outline-primary btn-verification" type="button" id="sendVerificationBtn" onclick="sendVerificationCode()">
-                                            <i class="bi bi-envelope"></i>
-                                        </button>
+                                <div class="form-section" style="background: rgba(91, 180, 80, 0.1); border-radius: 15px; padding: 1.5rem; margin-bottom: 1.5rem; border: 1px solid rgba(91, 180, 80, 0.2);">
+                                    <h5 style="color: #2c3e50; margin-bottom: 1rem; text-align: center; font-weight: 600;">
+                                        <i class="bi bi-person-badge me-2" style="color: #46923c;"></i>Personal Information
+                                    </h5>
+                                    
+                                    <div class="form-group" style="margin-bottom: 1rem;">
+                                        <label for="name" style="color: #2c3e50; font-weight: 500; margin-bottom: 0.5rem;">Full Name</label>
+                                        <input type="text" class="form-control" id="name" name="name" required 
+                                               style="background: white; border: 1px solid #e9ecef; border-radius: 10px; padding: 0.75rem;">
+                                    </div>
+                                    
+                                    <div class="form-group" style="margin-bottom: 1rem;">
+                                        <label for="phone" style="color: #2c3e50; font-weight: 500; margin-bottom: 0.5rem;">Phone Number</label>
+                                        <input type="tel" class="form-control" id="phone" name="phone" required 
+                                               style="background: white; border: 1px solid #e9ecef; border-radius: 10px; padding: 0.75rem;">
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="address" style="color: #2c3e50; font-weight: 500; margin-bottom: 0.5rem;">Address</label>
+                                        <textarea class="form-control" id="address" name="address" rows="2" required 
+                                                  style="background: white; border: 1px solid #e9ecef; border-radius: 10px; padding: 0.75rem; resize: none;"></textarea>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="password" class="form-label">Password</label>
-                                    <div class="input-group">
-                                        <input type="password" class="form-control" id="password" name="password" required>
-                                        <button class="btn btn-outline-secondary" type="button" onclick="togglePassword('password')">
-                                            <i class="bi bi-eye" id="passwordIcon"></i>
-                                        </button>
+                            
+                            <!-- Account Information Section - Right Side -->
+                            <div class="col-md-6">
+                                <div class="form-section" style="background: rgba(91, 180, 80, 0.1); border-radius: 15px; padding: 1.5rem; margin-bottom: 1.5rem; border: 1px solid rgba(91, 180, 80, 0.2);">
+                                    <h5 style="color: #2c3e50; margin-bottom: 1rem; text-align: center; font-weight: 600;">
+                                        <i class="bi bi-shield-lock me-2" style="color: #46923c;"></i>Account Details
+                                    </h5>
+                                    
+                                    <div class="form-group" style="margin-bottom: 1rem;">
+                                        <label for="username" style="color: #2c3e50; font-weight: 500; margin-bottom: 0.5rem;">Username</label>
+                                        <input type="text" class="form-control" id="username" name="username" required 
+                                               style="background: white; border: 1px solid #e9ecef; border-radius: 10px; padding: 0.75rem;">
+                                    </div>
+                                    
+                                    <div class="form-group" style="margin-bottom: 1rem;">
+                                        <label for="email" style="color: #2c3e50; font-weight: 500; margin-bottom: 0.5rem;">Email Address</label>
+                                        <div class="input-group">
+                                            <input type="email" class="form-control" id="email" name="email" required 
+                                                   style="background: white; border: 1px solid #e9ecef; border-radius: 10px 0 0 10px; padding: 0.75rem;">
+                                            <button class="btn" type="button" id="sendVerificationBtn" onclick="sendVerificationCode()"
+                                                    style="background: #28a745; border: none; border-radius: 0 10px 10px 0; color: white; padding: 0.75rem 1rem;">
+                                                <i class="bi bi-envelope"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="password" style="color: #2c3e50; font-weight: 500; margin-bottom: 0.5rem;">Password</label>
+                                        <div class="input-group">
+                                            <input type="password" class="form-control" id="password" name="password" required 
+                                                   style="background: white; border: 1px solid #e9ecef; border-radius: 10px 0 0 10px; padding: 0.75rem;">
+                                            <button class="btn" type="button" onclick="togglePassword('password')"
+                                                    style="background: #6c757d; border: none; border-radius: 0 10px 10px 0; color: white; padding: 0.75rem 1rem;">
+                                                <i class="bi bi-eye" id="passwordIcon"></i>
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         
-                        <!-- Email Verification Row -->
-                        <div class="row verification-row" id="verificationRow" style="display: none;">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="verificationPin" class="form-label">Verification Pin</label>
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" id="verificationPin" name="verificationPin" placeholder="Enter 6-digit code" maxlength="6">
-                                        <button class="btn btn-outline-success btn-verification" type="button" id="verifyEmailBtn" onclick="verifyEmail()">
-                                            <i class="bi bi-check-circle"></i>
-                                        </button>
-                                    </div>
-                                    <small class="form-text text-muted">Enter the 6-digit verification code sent to your email</small>
+                        <!-- Email Verification Section -->
+                        <div class="form-section" id="verificationRow" style="display: none; background: rgba(91, 180, 80, 0.1); border-radius: 15px; padding: 1.5rem; margin-bottom: 1.5rem; border: 1px solid rgba(91, 180, 80, 0.2);">
+                            <h5 style="color: #2c3e50; margin-bottom: 1rem; text-align: center; font-weight: 600;">
+                                <i class="bi bi-patch-check me-2" style="color: #46923c;"></i>Email Verification
+                            </h5>
+                            
+                            <div class="form-group" style="margin-bottom: 1rem;">
+                                <label for="verificationPin" style="color: #2c3e50; font-weight: 500; margin-bottom: 0.5rem;">Verification Code</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="verificationPin" name="verificationPin" placeholder="Enter 6-digit code" maxlength="6"
+                                           style="background: white; border: 1px solid #e9ecef; border-radius: 10px 0 0 10px; padding: 0.75rem;">
+                                    <button class="btn" type="button" id="verifyEmailBtn" onclick="verifyEmail()"
+                                            style="background: #17a2b8; border: none; border-radius: 0 10px 10px 0; color: white; padding: 0.75rem 1rem;">
+                                        <i class="bi bi-check-circle"></i>
+                                    </button>
                                 </div>
+                                <small style="color: #6c757d; font-size: 0.8rem;">Enter the 6-digit verification code sent to your email</small>
                             </div>
-                            <div class="col-md-6">
-                                <div class="alert alert-info verification-status" id="verificationStatus" style="display: none;">
-                                    <i class="bi bi-info-circle me-2"></i>
-                                    <span id="verificationMessage"></span>
-                                </div>
+                            
+                            <div class="alert" id="verificationStatus" style="display: none; background: white; border: 1px solid #e9ecef; color: #2c3e50; border-radius: 10px;">
+                                <i class="bi bi-info-circle me-2" style="color: #46923c;"></i>
+                                <span id="verificationMessage"></span>
                             </div>
                         </div>
                         
-                        <div class="text-end">
-                            <button type="submit" class="btn btn-primary" id="addCustomerBtn" disabled onclick="submitForm(event)">
-                                <i class="bi bi-plus-circle me-2"></i>Add Customer
+                        <div style="text-align: center;">
+                            <button type="submit" class="btn btn-outline-success btn-sm" id="addCustomerBtn" disabled onclick="submitForm(event)"
+                                    style="border: 2px solid #28a745; color: #28a745; background: transparent; padding: 0.5rem 1.5rem; border-radius: 15px; font-weight: 600; font-size: 0.9rem;">
+                                <i class="bi bi-person-plus-fill me-2"></i>Create Customer Account
                             </button>
                         </div>
                     </form>
@@ -1071,12 +1080,32 @@
                     <h3 class="card-title">
                         <span><i class="bi bi-people me-2"></i>Customer List</span>
                         <a href="CustomerServlet?action=list" class="btn btn-primary">
-                            <i class="bi bi-arrow-clockwise me-2"></i>Refresh
+                            <i class="bi bi-arrow-clockwise me-2" style="color: white;"></i>Refresh
                         </a>
                     </h3>
                     
+                    <!-- Search Bar -->
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="bi bi-search"></i>
+                                </span>
+                                <input type="text" class="form-control" id="searchInput" 
+                                       placeholder="Search customers by name, username, email, or account number..." 
+                                       onkeyup="filterCustomers()">
+                                <button class="btn btn-outline-secondary" type="button" onclick="clearSearch()">
+                                    <i class="bi bi-x-circle"></i> Clear
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-md-6 text-end">
+                            <span class="text-muted" id="customerCount">0 customers found</span>
+                        </div>
+                    </div>
+                    
                     <div class="table-responsive">
-                        <table class="table table-hover">
+                        <table class="table table-hover" id="customerTable">
                             <thead>
                                 <tr>
                                     <th>ID</th>
@@ -1106,17 +1135,21 @@
                                     <td><%= customer.getAddress() %></td>
                                     <td><%= customer.getCreatedBy() != null ? customer.getCreatedBy().getUsername() : "N/A" %></td>
                                     <td>
-                                        <a href="CustomerServlet?action=view&customer_id=<%= customer.getCustomerId() %>" 
-                                           class="btn btn-view btn-sm">
-                                            <i class="bi bi-eye"></i>
-                                        </a>
-                                        <button class="btn btn-edit btn-sm" onclick="editCustomer('<%= customer.getCustomerId() %>')">
-                                            <i class="bi bi-pencil"></i>
-                                        </button>
-                                        <button class="btn btn-delete btn-sm" onclick="deleteCustomer('<%= customer.getCustomerId() %>')" 
-                                                title="Delete customer">
-                                            <i class="bi bi-trash"></i>
-                                        </button>
+                                        <div style="display: flex; gap: 5px; align-items: center;">
+                                            <a href="CustomerServlet?action=view&customer_id=<%= customer.getCustomerId() %>" 
+                                               class="btn btn-outline-info btn-sm" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; border: 1px solid #17a2b8; color: #17a2b8; background: transparent;">
+                                                <i class="bi bi-eye"></i>
+                                            </a>
+                                            <button class="btn btn-outline-warning btn-sm" onclick="editCustomer('<%= customer.getCustomerId() %>')"
+                                                    style="padding: 0.25rem 0.5rem; font-size: 0.75rem; border: 1px solid #ffc107; color: #ffc107; background: transparent;">
+                                                <i class="bi bi-pencil"></i>
+                                            </button>
+                                            <button class="btn btn-outline-danger btn-sm" onclick="deleteCustomer('<%= customer.getCustomerId() %>')" 
+                                                    title="Delete customer"
+                                                    style="padding: 0.25rem 0.5rem; font-size: 0.75rem; border: 1px solid #dc3545; color: #dc3545; background: transparent;">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </div>
                                     </td>
                                 </tr>
                                 <%
@@ -1456,6 +1489,54 @@
                 document.getElementById('sendVerificationBtn').disabled = false;
                 document.getElementById('verificationPin').disabled = false;
                 document.getElementById('verifyEmailBtn').disabled = false;
+            });
+
+            // Search and filter customers
+            function filterCustomers() {
+                const searchInput = document.getElementById('searchInput');
+                const filter = searchInput.value.toLowerCase();
+                const table = document.getElementById('customerTable');
+                const rows = table.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+                let visibleCount = 0;
+
+                for (let i = 0; i < rows.length; i++) {
+                    const row = rows[i];
+                    const name = row.cells[2].textContent.toLowerCase();
+                    const username = row.cells[3].textContent.toLowerCase();
+                    const email = row.cells[4].textContent.toLowerCase();
+                    const accountNumber = row.cells[1].textContent.toLowerCase();
+                    
+                    if (name.includes(filter) || username.includes(filter) || email.includes(filter) || accountNumber.includes(filter)) {
+                        row.style.display = '';
+                        visibleCount++;
+                    } else {
+                        row.style.display = 'none';
+                    }
+                }
+
+                // Update count
+                document.getElementById('customerCount').textContent = visibleCount + ' customers found';
+            }
+
+            // Clear search
+            function clearSearch() {
+                document.getElementById('searchInput').value = '';
+                filterCustomers();
+            }
+
+            // Initialize count on page load
+            document.addEventListener('DOMContentLoaded', function() {
+                const table = document.getElementById('customerTable');
+                const rows = table.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+                let visibleCount = 0;
+                
+                for (let i = 0; i < rows.length; i++) {
+                    if (!rows[i].cells[0].textContent.includes('No customers found')) {
+                        visibleCount++;
+                    }
+                }
+                
+                document.getElementById('customerCount').textContent = visibleCount + ' customers found';
             });
         </script>
     </body>

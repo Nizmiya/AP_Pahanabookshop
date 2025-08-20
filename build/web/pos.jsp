@@ -1626,13 +1626,16 @@
                         transactionId = data.transactionId;
                         showBill(data.transaction);
                         
-                        // Clear cart
+                        // Clear cart completely
                         cart = [];
                         updateCartDisplay();
                         
                         // Reset modal total and clear order summary
                         document.getElementById('modalTotal').textContent = '0.00';
                         document.getElementById('orderSummary').innerHTML = '';
+                        
+                        // Clear the main cart total display
+                        document.getElementById('cartTotal').textContent = '0.00';
                         
                         // Close checkout modal
                         const modal = bootstrap.Modal.getInstance(document.getElementById('checkoutModal'));

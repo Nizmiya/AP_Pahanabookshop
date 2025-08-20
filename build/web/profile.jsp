@@ -146,9 +146,6 @@
                 text-decoration: none;
                 box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
             }
-                position: relative;
-                overflow: hidden;
-            }
 
             .nav-link::before {
                 content: '';
@@ -770,69 +767,109 @@
                     </div>
                 <% } %>
 
-                <div class="content-card">
-                    <div class="card-title">
-                        <span>
-                            <i class="bi bi-person-circle"></i>
-                            Login ID Details
-                        </span>
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editProfileModal">
-                            <i class="bi bi-pencil"></i> Update Profile
-                        </button>
+                <div class="content-card" style="background: white; border: 1px solid #e9ecef; color: #2c3e50;">
+                    <div class="card-title" style="color: #2c3e50; text-align: center; margin-bottom: 1rem;">
+                        <span><i class="bi bi-person-circle-fill me-2" style="color: #46923c;"></i>User Profile Information</span>
                     </div>
                     
-                    <div class="text-center mb-4">
-                        <div class="profile-avatar">
-                            <i class="bi bi-person"></i>
+                    <div class="text-center mb-2">
+                        <div class="profile-avatar" style="width: 100px; height: 100px; font-size: 2.5rem; background: linear-gradient(135deg, #46923c, #5bb450); border: 3px solid #46923c;">
+                            <i class="bi bi-person-fill" style="color: white;"></i>
                         </div>
+                        <h5 style="color: #2c3e50; margin-top: 0.5rem; font-weight: 600; margin-bottom: 0.25rem;"><%= username %></h5>
+                        <span style="background: #46923c; color: white; padding: 0.3rem 0.8rem; border-radius: 12px; font-size: 0.75rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px;"><%= role %></span>
                     </div>
                     
                     <div class="row">
+                        <!-- Account Information Section -->
                         <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="form-label">Login ID (Username)</label>
-                                <p class="form-control-plaintext"><%= username %></p>
+                            <div class="form-section" style="background: rgba(91, 180, 80, 0.1); border-radius: 12px; padding: 1rem; margin-bottom: 0.75rem; border: 1px solid rgba(91, 180, 80, 0.2);">
+                                <h6 style="color: #2c3e50; margin-bottom: 0.5rem; text-align: center; font-weight: 600;">
+                                    <i class="bi bi-shield-lock me-2" style="color: #46923c;"></i>Account Details
+                                </h6>
+                                
+                                <div class="form-group" style="margin-bottom: 0.75rem;">
+                                    <label style="color: #2c3e50; font-weight: 500; margin-bottom: 0.25rem; font-size: 0.85rem;">Login ID (Username)</label>
+                                    <div style="background: white; border-radius: 8px; padding: 0.5rem; color: #333; font-weight: 500; font-size: 0.9rem; border: 1px solid #e9ecef;">
+                                        <i class="bi bi-person me-2" style="color: #6c757d;"></i><%= username %>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group" style="margin-bottom: 0.75rem;">
+                                    <label style="color: #2c3e50; font-weight: 500; margin-bottom: 0.25rem; font-size: 0.85rem;">User Role</label>
+                                    <div style="background: white; border-radius: 8px; padding: 0.5rem; color: #333; font-weight: 500; font-size: 0.9rem; border: 1px solid #e9ecef;">
+                                        <i class="bi bi-shield me-2" style="color: #6c757d;"></i><%= role %>
+                                    </div>
+                                </div>
+                                
+                                <% if (user != null) { %>
+                                <div class="form-group" style="margin-bottom: 0.75rem;">
+                                    <label style="color: #2c3e50; font-weight: 500; margin-bottom: 0.25rem; font-size: 0.85rem;">User ID</label>
+                                    <div style="background: white; border-radius: 8px; padding: 0.5rem; color: #333; font-weight: 500; font-size: 0.9rem; border: 1px solid #e9ecef;">
+                                        <i class="bi bi-hash me-2" style="color: #6c757d;"></i><%= user.getUserId() %>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label style="color: #2c3e50; font-weight: 500; margin-bottom: 0.25rem; font-size: 0.85rem;">Email Address</label>
+                                    <div style="background: white; border-radius: 8px; padding: 0.5rem; color: #333; font-weight: 500; font-size: 0.9rem; border: 1px solid #e9ecef;">
+                                        <i class="bi bi-envelope me-2" style="color: #6c757d;"></i><%= user.getEmail() != null ? user.getEmail() : "Not provided" %>
+                                    </div>
+                                </div>
+                                <% } else if (customer != null) { %>
+                                <div class="form-group" style="margin-bottom: 0.75rem;">
+                                    <label style="color: #2c3e50; font-weight: 500; margin-bottom: 0.25rem; font-size: 0.85rem;">Customer ID</label>
+                                    <div style="background: white; border-radius: 8px; padding: 0.5rem; color: #333; font-weight: 500; font-size: 0.9rem; border: 1px solid #e9ecef;">
+                                        <i class="bi bi-hash me-2" style="color: #6c757d;"></i><%= customer.getCustomerId() %>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label style="color: #2c3e50; font-weight: 500; margin-bottom: 0.25rem; font-size: 0.85rem;">Full Name</label>
+                                    <div style="background: white; border-radius: 8px; padding: 0.5rem; color: #333; font-weight: 500; font-size: 0.9rem; border: 1px solid #e9ecef;">
+                                        <i class="bi bi-person-badge me-2" style="color: #6c757d;"></i><%= customer.getName() != null ? customer.getName() : "Not provided" %>
+                                    </div>
+                                </div>
+                                <% } %>
                             </div>
                         </div>
+                        
+                        <!-- Profile Actions Section -->
                         <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="form-label">User Role</label>
-                                <p class="form-control-plaintext"><%= role %></p>
+                            <div class="form-section" style="background: rgba(91, 180, 80, 0.1); border-radius: 12px; padding: 1rem; margin-bottom: 0.75rem; border: 1px solid rgba(91, 180, 80, 0.2);">
+                                <h6 style="color: #2c3e50; margin-bottom: 0.5rem; text-align: center; font-weight: 600;">
+                                    <i class="bi bi-gear me-2" style="color: #46923c;"></i>Profile Actions
+                                </h6>
+                                
+                                <div style="text-align: center;">
+                                    <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#editProfileModal"
+                                            style="background: linear-gradient(135deg, #28a745, #20c997); border: none; color: white; padding: 0.6rem 1.2rem; border-radius: 15px; font-weight: 600; font-size: 0.9rem; box-shadow: 0 4px 15px rgba(40,167,69,0.3); margin-bottom: 0.5rem; width: 100%;">
+                                        <i class="bi bi-pencil-fill me-2" style="color: white;"></i>Update Profile
+                                    </button>
+                                    
+                                    <div style="background: white; border-radius: 8px; padding: 0.5rem; margin-top: 0.5rem; border: 1px solid #e9ecef;">
+                                        <h6 style="color: #2c3e50; font-weight: 600; margin-bottom: 0.25rem; font-size: 0.8rem;">
+                                            <i class="bi bi-info-circle me-2" style="color: #46923c;"></i>Profile Information
+                                        </h6>
+                                        <div style="color: #2c3e50; font-size: 0.75rem; text-align: left;">
+                                            <div style="margin-bottom: 0.25rem;">
+                                                <strong style="color: #28a745;">✓</strong> Keep your profile information up to date
+                                            </div>
+                                            <div style="margin-bottom: 0.25rem;">
+                                                <strong style="color: #28a745;">✓</strong> Use strong passwords for security
+                                            </div>
+                                            <div style="margin-bottom: 0.25rem;">
+                                                <strong style="color: #28a745;">✓</strong> Update email for notifications
+                                            </div>
+                                            <div>
+                                                <strong style="color: #28a745;">✓</strong> Contact admin for role changes
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    
-                    <% if (user != null) { %>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="form-label">User ID</label>
-                                    <p class="form-control-plaintext"><%= user.getUserId() %></p>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="form-label">Email Address</label>
-                                    <p class="form-control-plaintext"><%= user.getEmail() != null ? user.getEmail() : "Not provided" %></p>
-                                </div>
-                            </div>
-                        </div>
-                    <% } else if (customer != null) { %>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="form-label">Customer ID</label>
-                                    <p class="form-control-plaintext"><%= customer.getCustomerId() %></p>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="form-label">Full Name</label>
-                                    <p class="form-control-plaintext"><%= customer.getName() != null ? customer.getName() : "Not provided" %></p>
-                                </div>
-                            </div>
-                        </div>
-                    <% } %>
                 </div>
 
                 <!-- Edit Profile Modal -->

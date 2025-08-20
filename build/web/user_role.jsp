@@ -437,11 +437,12 @@
                 font-weight: 500;
             }
 
-            /* Modern Table Styles */
+            /* Simple Table Styles */
             .table-responsive {
-                border-radius: 15px;
+                border-radius: 8px;
                 overflow: hidden;
-                box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+                border: 1px solid #e0e0e0;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.08);
             }
 
             .table {
@@ -450,35 +451,29 @@
             }
 
             .table thead th {
-                background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-                color: var(--white);
-                font-weight: 600;
+                background: #e9ecef;
+                color: #2c3e50;
+                border: none;
+                padding: 0.75rem 1rem;
+                font-weight: 700;
+                font-size: 0.9rem;
                 text-transform: uppercase;
                 letter-spacing: 0.5px;
-                border: none;
-                padding: 1.25rem 1rem;
-                position: relative;
-            }
-
-            .table thead th::after {
-                content: '';
-                position: absolute;
-                bottom: 0;
-                left: 0;
-                right: 0;
-                height: 2px;
-                background: var(--accent-color);
+                border-bottom: 2px solid #dee2e6;
             }
 
             .table tbody tr {
-                transition: all 0.3s ease;
-                border-bottom: 1px solid rgba(91, 180, 80, 0.1);
+                border-bottom: 1px solid #f1f3f4;
+                transition: background-color 0.2s ease;
+                background: var(--white);
+            }
+
+            .table tbody tr:nth-child(even) {
+                background: #f8f9fa;
             }
 
             .table tbody tr:hover {
-                background: linear-gradient(135deg, rgba(91, 180, 80, 0.05), rgba(70, 146, 60, 0.05));
-                transform: translateY(-1px);
-                box-shadow: 0 4px 15px rgba(91, 180, 80, 0.1);
+                background: #e9ecef;
             }
 
             .table tbody tr:last-child {
@@ -486,16 +481,17 @@
             }
 
             .table tbody td {
-                padding: 1.25rem 1rem;
-                vertical-align: middle;
+                padding: 0.75rem 1rem;
                 border: none;
-                color: var(--dark-text);
-                font-weight: 500;
+                vertical-align: middle;
+                font-size: 0.9rem;
+                color: #495057;
             }
 
             .table tbody td:first-child {
                 font-weight: 600;
-                color: var(--secondary-color);
+                color: #007bff;
+                font-size: 0.9rem;
             }
 
             /* Badge Styles */
@@ -704,30 +700,56 @@
                 <% } %>
 
                 <!-- Add User Role Form -->
-                <div class="content-card">
-                    <div class="card-title">
-                        <span>
-                            <i class="bi bi-shield-plus"></i>
-                            Add New User Role
-                        </span>
+                <div class="content-card" style="background: linear-gradient(135deg, #adb5bd 0%, #6c757d 100%); border: none; color: white;">
+                    <div class="card-title" style="color: white; text-align: center; margin-bottom: 2rem;">
+                        <span><i class="bi bi-shield-plus-fill me-2" style="color: white;"></i>Create New User Role</span>
                     </div>
                     
-                    <form action="UserRoleServlet" method="post">
+                    <form action="UserRoleServlet" method="post" style="max-width: 600px; margin: 0 auto;">
                         <input type="hidden" name="action" value="create">
                         
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="role_name" class="form-label">Role Name</label>
-                                    <input type="text" class="form-control" id="role_name" name="role_name" 
-                                           placeholder="Enter role name (e.g., EDITOR)" required>
+                        <div class="form-section" style="background: rgba(255,255,255,0.1); border-radius: 15px; padding: 2rem; margin-bottom: 1.5rem; backdrop-filter: blur(10px);">
+                            <h5 style="color: white; margin-bottom: 1.5rem; text-align: center; font-weight: 600;">
+                                <i class="bi bi-shield-lock me-2"></i>Role Information
+                            </h5>
+                            
+                            <div class="form-group" style="margin-bottom: 1.5rem;">
+                                <label for="role_name" style="color: white; font-weight: 500; margin-bottom: 0.75rem; display: block;">Role Name</label>
+                                <input type="text" class="form-control" id="role_name" name="role_name" 
+                                       placeholder="Enter role name (e.g., EDITOR, MODERATOR)" required
+                                       style="background: rgba(255,255,255,0.9); border: none; border-radius: 10px; padding: 0.75rem; font-size: 1rem;">
+                                <small style="color: rgba(255,255,255,0.8); font-size: 0.85rem; margin-top: 0.5rem; display: block;">
+                                    <i class="bi bi-info-circle me-1"></i>
+                                    Use uppercase letters for role names (e.g., EDITOR, MODERATOR, ANALYST)
+                                </small>
+                            </div>
+                            
+                            <!-- Role Guidelines -->
+                            <div class="role-guidelines" style="background: rgba(255,255,255,0.1); border-radius: 10px; padding: 1.5rem; margin-top: 1.5rem;">
+                                <h6 style="color: white; font-weight: 600; margin-bottom: 1rem;">
+                                    <i class="bi bi-lightbulb me-2"></i>Role Creation Guidelines
+                                </h6>
+                                <div style="color: rgba(255,255,255,0.9); font-size: 0.9rem;">
+                                    <div style="margin-bottom: 0.75rem;">
+                                        <strong>✓</strong> Use descriptive, clear role names
+                                    </div>
+                                    <div style="margin-bottom: 0.75rem;">
+                                        <strong>✓</strong> Follow naming conventions (UPPERCASE)
+                                    </div>
+                                    <div style="margin-bottom: 0.75rem;">
+                                        <strong>✓</strong> Consider permissions and access levels
+                                    </div>
+                                    <div>
+                                        <strong>✓</strong> Avoid duplicate or conflicting roles
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         
-                        <div class="text-end">
-                            <button type="submit" class="btn btn-primary">
-                                <i class="bi bi-plus-circle"></i> Add Role
+                        <div style="text-align: center;">
+                            <button type="submit" class="btn" 
+                                    style="background: linear-gradient(135deg, #28a745, #20c997); border: none; color: white; padding: 1rem 2rem; border-radius: 25px; font-weight: 600; font-size: 1.1rem; box-shadow: 0 4px 15px rgba(40,167,69,0.3);">
+                                <i class="bi bi-shield-plus-fill me-2" style="color: white;"></i>Create User Role
                             </button>
                         </div>
                     </form>
@@ -741,7 +763,7 @@
                             User Role List
                         </span>
                         <a href="UserRoleServlet?action=list" class="btn btn-primary">
-                            <i class="bi bi-arrow-clockwise"></i> Refresh
+                            <i class="bi bi-arrow-clockwise" style="color: white;"></i> Refresh
                         </a>
                     </div>
                     

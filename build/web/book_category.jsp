@@ -13,11 +13,35 @@
         <!-- Bootstrap Icons -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
         <style>
-            body {
-                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-                background-color: #cce7c9;
+            :root {
+                --primary-color: #3b8132;
+                --secondary-color: #46923c;
+                --accent-color: #5bb450;
+                --light-bg: #cce7c9;
+                --white: #ffffff;
+                --dark-text: #2c3e50;
+                --light-text: #7f8c8d;
+                --border-color: #e9ecef;
+                --shadow: 0 8px 32px rgba(59, 129, 50, 0.1);
+                --shadow-hover: 0 12px 40px rgba(59, 129, 50, 0.15);
+                --success-color: #28a745;
+                --info-color: #17a2b8;
+                --warning-color: #ffc107;
+                --danger-color: #dc3545;
+            }
+
+            * {
                 margin: 0;
                 padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                background: linear-gradient(135deg, var(--light-bg) 0%, #e8f5e8 100%);
+                color: var(--dark-text);
+                line-height: 1.6;
+                overflow-x: hidden;
             }
 
             .main-container {
@@ -123,151 +147,308 @@
                 box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
             }
 
-            /* Main Content Styles */
+            /* Main Content Area */
             .main-content {
                 flex: 1;
                 margin-left: 280px;
                 padding: 2rem;
+                position: relative;
             }
 
             .header {
+                background: var(--white);
+                border-radius: 20px;
+                padding: 1.5rem 2rem;
+                margin-bottom: 2rem;
+                box-shadow: var(--shadow);
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                margin-bottom: 2rem;
-                padding: 1rem 0;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .header::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 4px;
+                background: linear-gradient(90deg, var(--primary-color), var(--secondary-color), var(--accent-color));
             }
 
             .header-left {
                 display: flex;
                 align-items: center;
+                gap: 1rem;
             }
 
             .menu-toggle {
-                background: none;
+                background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
                 border: none;
-                font-size: 1.5rem;
-                color: #333;
-                margin-right: 1rem;
+                color: var(--white);
+                padding: 0.75rem;
+                border-radius: 12px;
+                font-size: 1.2rem;
                 cursor: pointer;
+                transition: all 0.3s ease;
+                box-shadow: 0 4px 15px rgba(70, 146, 60, 0.3);
+            }
+
+            .menu-toggle:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 6px 20px rgba(70, 146, 60, 0.4);
+            }
+
+            .page-title {
+                font-size: 1.8rem;
+                font-weight: 700;
+                color: var(--dark-text);
+                margin: 0;
             }
 
             .user-info {
                 display: flex;
                 align-items: center;
                 gap: 1rem;
+                background: linear-gradient(135deg, var(--light-bg), #e8f5e8);
+                padding: 0.75rem 1.5rem;
+                border-radius: 15px;
+                border: 2px solid rgba(91, 180, 80, 0.2);
+            }
+
+            .user-details {
+                display: flex;
+                flex-direction: column;
+            }
+
+            .user-name {
+                font-weight: 600;
+                color: var(--dark-text);
+                font-size: 0.95rem;
+            }
+
+            .user-role {
+                font-size: 0.85rem;
+                color: var(--light-text);
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
             }
 
             .user-avatar {
-                width: 40px;
-                height: 40px;
+                width: 45px;
+                height: 45px;
                 border-radius: 50%;
-                background: linear-gradient(135deg, #46923c 0%, #5bb450 100%);
+                background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                color: white;
+                color: var(--white);
                 font-weight: 600;
+                font-size: 1.2rem;
+                box-shadow: 0 4px 15px rgba(91, 180, 80, 0.3);
             }
 
-            /* Content Cards */
+            /* Modern Content Cards */
             .content-card {
-                background: white;
-                border-radius: 12px;
-                padding: 1.5rem;
-                box-shadow: 0 4px 15px rgba(59, 129, 50, 0.1);
+                background: var(--white);
+                border-radius: 20px;
+                padding: 2rem;
+                box-shadow: var(--shadow);
+                border: 1px solid var(--border-color);
                 margin-bottom: 2rem;
-                border: 1px solid rgba(70, 146, 60, 0.1);
+                position: relative;
+                overflow: hidden;
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+
+            .content-card::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 4px;
+                background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            }
+
+            .content-card:hover {
+                transform: translateY(-4px);
+                box-shadow: var(--shadow-hover);
             }
 
             .card-title {
-                font-size: 1.5rem;
-                font-weight: 600;
-                color: #333;
+                font-size: 1.4rem;
+                font-weight: 700;
+                color: var(--dark-text);
                 margin-bottom: 1.5rem;
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+
+            .card-title span {
+                display: flex;
+                align-items: center;
+                gap: 0.75rem;
+            }
+
+            .card-title i {
+                color: var(--secondary-color);
+                font-size: 1.6rem;
+            }
+
+            /* Modern Button Styles */
+            .btn {
+                padding: 0.75rem 1.5rem;
+                border-radius: 12px;
+                font-weight: 600;
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                border: none;
+                cursor: pointer;
+                text-decoration: none;
+                display: inline-flex;
+                align-items: center;
+                gap: 0.5rem;
+                font-size: 0.9rem;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
             }
 
             .btn-primary {
-                background: linear-gradient(135deg, #46923c 0%, #5bb450 100%);
-                border: none;
-                padding: 0.5rem 1rem;
-                border-radius: 6px;
-                color: white;
-                text-decoration: none;
-                font-weight: 500;
-                transition: all 0.3s ease;
+                background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
+                color: var(--white);
+                box-shadow: 0 4px 15px rgba(70, 146, 60, 0.3);
             }
 
             .btn-primary:hover {
+                background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+                color: var(--white);
                 transform: translateY(-2px);
-                box-shadow: 0 5px 15px rgba(70, 146, 60, 0.3);
-                color: white;
-                background: linear-gradient(135deg, #5bb450 0%, #46923c 100%);
+                box-shadow: 0 6px 20px rgba(70, 146, 60, 0.4);
+                text-decoration: none;
+            }
+
+            .btn-sm {
+                padding: 0.5rem 1rem;
+                font-size: 0.8rem;
             }
 
             .btn-outline-primary {
-                color: #46923c;
-                border-color: #46923c;
+                color: var(--secondary-color);
+                border: 2px solid var(--secondary-color);
+                background: transparent;
             }
 
             .btn-outline-primary:hover {
-                background-color: #46923c;
-                border-color: #46923c;
-                color: white;
+                background: var(--secondary-color);
+                color: var(--white);
+                transform: translateY(-2px);
+                box-shadow: 0 4px 15px rgba(70, 146, 60, 0.3);
             }
 
             .btn-outline-danger {
-                color: #dc3545;
-                border-color: #dc3545;
+                color: var(--danger-color);
+                border: 2px solid var(--danger-color);
+                background: transparent;
             }
 
             .btn-outline-danger:hover {
-                background-color: #dc3545;
-                border-color: #dc3545;
-                color: white;
+                background: var(--danger-color);
+                color: var(--white);
+                transform: translateY(-2px);
+                box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
             }
 
-            /* Table Styles */
-            .table-dark {
-                background: linear-gradient(135deg, #3b8132 0%, #46923c 100%);
-                color: white;
-            }
-
-            .table-striped > tbody > tr:nth-of-type(odd) > td {
-                background-color: rgba(204, 231, 201, 0.1);
-            }
-
-            .table-hover > tbody > tr:hover > td {
-                background-color: rgba(91, 180, 80, 0.1);
-            }
-
-            /* Alert Styles */
-            .alert {
+            /* Simple Table Styles */
+            .table-responsive {
                 border-radius: 8px;
+                overflow: hidden;
+                border: 1px solid #e0e0e0;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            }
+
+            .table {
+                margin-bottom: 0;
+                background: var(--white);
+            }
+
+            .table thead th {
+                background: #e9ecef;
+                color: #2c3e50;
                 border: none;
-                padding: 1rem;
+                padding: 0.75rem 1rem;
+                font-weight: 700;
+                font-size: 0.9rem;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+                border-bottom: 2px solid #dee2e6;
+            }
+
+            .table tbody tr {
+                border-bottom: 1px solid #f1f3f4;
+                transition: background-color 0.2s ease;
+                background: var(--white);
+            }
+
+            .table tbody tr:nth-child(even) {
+                background: #f8f9fa;
+            }
+
+            .table tbody tr:hover {
+                background: #e9ecef;
+            }
+
+            .table tbody tr:last-child {
+                border-bottom: none;
+            }
+
+            .table tbody td {
+                padding: 0.75rem 1rem;
+                border: none;
+                vertical-align: middle;
+                font-size: 0.9rem;
+                color: #495057;
+            }
+
+            .table tbody td:first-child {
+                font-weight: 600;
+                color: #007bff;
+                font-size: 0.9rem;
+            }
+
+            /* Modern Alert Styles */
+            .alert {
+                border-radius: 15px;
+                border: none;
+                padding: 1.25rem 1.5rem;
                 margin-bottom: 1.5rem;
+                font-weight: 500;
+                display: flex;
+                align-items: center;
+                gap: 0.75rem;
+                box-shadow: 0 4px 15px rgba(0,0,0,0.05);
             }
 
             .alert-success {
-                background-color: rgba(91, 180, 80, 0.1);
-                color: #2d5a2d;
-                border-left: 4px solid #5bb450;
+                background: linear-gradient(135deg, #d4edda, #c3e6cb);
+                color: #155724;
+                border-left: 4px solid var(--success-color);
             }
 
             .alert-danger {
-                background-color: #f8d7da;
+                background: linear-gradient(135deg, #f8d7da, #f5c6cb);
                 color: #721c24;
-                border-left: 4px solid #dc3545;
+                border-left: 4px solid var(--danger-color);
             }
 
             .alert-info {
-                background-color: rgba(70, 146, 60, 0.1);
-                color: #2d5a2d;
-                border-left: 4px solid #46923c;
+                background: linear-gradient(135deg, #d1ecf1, #bee5eb);
+                color: #0c5460;
+                border-left: 4px solid var(--info-color);
             }
 
             /* Modal Styles */
@@ -291,11 +472,32 @@
                 box-shadow: 0 0 0 0.2rem rgba(91, 180, 80, 0.25);
             }
 
+            /* Utility Classes */
+            .text-muted {
+                color: var(--light-text) !important;
+            }
+
+            .text-center {
+                text-align: center !important;
+            }
+
+            .me-2 {
+                margin-right: 0.5rem !important;
+            }
+
+            .mb-0 {
+                margin-bottom: 0 !important;
+            }
+
+            .text-end {
+                text-align: right !important;
+            }
+
             /* Responsive Design */
             @media (max-width: 768px) {
                 .sidebar {
                     transform: translateX(-100%);
-                    transition: transform 0.3s ease;
+                    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
                 }
 
                 .sidebar.show {
@@ -304,6 +506,32 @@
 
                 .main-content {
                     margin-left: 0;
+                    padding: 1rem;
+                }
+
+                .header {
+                    flex-direction: column;
+                    gap: 1rem;
+                    text-align: center;
+                }
+
+                .card-title {
+                    flex-direction: column;
+                    align-items: flex-start;
+                }
+
+                .user-info {
+                    flex-direction: column;
+                    text-align: center;
+                }
+
+                .table-responsive {
+                    font-size: 0.85rem;
+                }
+
+                .table thead th,
+                .table tbody td {
+                    padding: 0.75rem 0.5rem;
                 }
             }
         </style>
@@ -355,10 +583,13 @@
                         <button class="menu-toggle" onclick="toggleSidebar()">
                             <i class="bi bi-list"></i>
                         </button>
-                        <h1 class="h3 mb-0">Book Category Management</h1>
+                        <h1 class="page-title">Book Category Management</h1>
                     </div>
                     <div class="user-info">
-                        <span>Welcome, <%= username %> (<%= role %>)</span>
+                        <div class="user-details">
+                            <span class="user-name"><%= username %></span>
+                            <span class="user-role"><%= role %></span>
+                        </div>
                         <div class="user-avatar">
                             <i class="bi bi-person"></i>
                         </div>
@@ -383,14 +614,34 @@
                     <h3 class="card-title">
                         <span><i class="bi bi-tags me-2"></i>Book Category Management</span>
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addCategoryModal">
-                            <i class="bi bi-plus-circle me-2"></i>Add Category
+                            <i class="bi bi-plus-circle me-2" style="color: white;"></i>Add Category
                         </button>
                     </h3>
                     
+                    <!-- Search Bar -->
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="bi bi-search"></i>
+                                </span>
+                                <input type="text" class="form-control" id="searchInput" 
+                                       placeholder="Search categories by name..." 
+                                       onkeyup="filterCategories()">
+                                <button class="btn btn-outline-secondary" type="button" onclick="clearSearch()">
+                                    <i class="bi bi-x-circle"></i> Clear
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-md-6 text-end">
+                            <span class="text-muted" id="categoryCount">0 categories found</span>
+                        </div>
+                    </div>
+                    
                     <!-- Book Categories Table -->
                     <div class="table-responsive">
-                        <table class="table table-striped table-hover">
-                            <thead class="table-dark">
+                        <table class="table table-hover" id="categoryTable">
+                            <thead>
                                 <tr>
                                     <th>ID</th>
                                     <th>Category Name</th>
@@ -556,6 +807,51 @@
                 document.getElementById('confirmDeleteBtn').href = 'BookCategoryServlet?action=delete&id=' + categoryId;
                 new bootstrap.Modal(document.getElementById('deleteCategoryModal')).show();
             }
+
+            // Search and filter categories
+            function filterCategories() {
+                const searchInput = document.getElementById('searchInput');
+                const filter = searchInput.value.toLowerCase();
+                const table = document.getElementById('categoryTable');
+                const rows = table.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+                let visibleCount = 0;
+
+                for (let i = 0; i < rows.length; i++) {
+                    const row = rows[i];
+                    const categoryName = row.cells[1].textContent.toLowerCase();
+                    
+                    if (categoryName.includes(filter)) {
+                        row.style.display = '';
+                        visibleCount++;
+                    } else {
+                        row.style.display = 'none';
+                    }
+                }
+
+                // Update count
+                document.getElementById('categoryCount').textContent = visibleCount + ' categories found';
+            }
+
+            // Clear search
+            function clearSearch() {
+                document.getElementById('searchInput').value = '';
+                filterCategories();
+            }
+
+            // Initialize count on page load
+            document.addEventListener('DOMContentLoaded', function() {
+                const table = document.getElementById('categoryTable');
+                const rows = table.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+                let visibleCount = 0;
+                
+                for (let i = 0; i < rows.length; i++) {
+                    if (rows[i].cells[0].textContent.trim() !== 'No book categories found') {
+                        visibleCount++;
+                    }
+                }
+                
+                document.getElementById('categoryCount').textContent = visibleCount + ' categories found';
+            });
         </script>
     </body>
 </html> 

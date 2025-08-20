@@ -147,10 +147,6 @@
                 text-decoration: none;
                 box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
             }
-                font-weight: 500;
-                position: relative;
-                overflow: hidden;
-            }
 
             .nav-link::before {
                 content: '';
@@ -510,11 +506,12 @@
                 font-weight: 500;
             }
 
-            /* Modern Table Styles */
+            /* Simple Table Styles */
             .table-responsive {
-                border-radius: 15px;
+                border-radius: 8px;
                 overflow: hidden;
-                box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+                border: 1px solid #e0e0e0;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.08);
             }
 
             .table {
@@ -523,35 +520,29 @@
             }
 
             .table thead th {
-                background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-                color: var(--white);
-                font-weight: 600;
+                background: #e9ecef;
+                color: #2c3e50;
+                border: none;
+                padding: 0.75rem 1rem;
+                font-weight: 700;
+                font-size: 0.9rem;
                 text-transform: uppercase;
                 letter-spacing: 0.5px;
-                border: none;
-                padding: 1.25rem 1rem;
-                position: relative;
-            }
-
-            .table thead th::after {
-                content: '';
-                position: absolute;
-                bottom: 0;
-                left: 0;
-                right: 0;
-                height: 2px;
-                background: var(--accent-color);
+                border-bottom: 2px solid #dee2e6;
             }
 
             .table tbody tr {
-                transition: all 0.3s ease;
-                border-bottom: 1px solid rgba(91, 180, 80, 0.1);
+                border-bottom: 1px solid #f1f3f4;
+                transition: background-color 0.2s ease;
+                background: var(--white);
+            }
+
+            .table tbody tr:nth-child(even) {
+                background: #f8f9fa;
             }
 
             .table tbody tr:hover {
-                background: linear-gradient(135deg, rgba(91, 180, 80, 0.05), rgba(70, 146, 60, 0.05));
-                transform: translateY(-1px);
-                box-shadow: 0 4px 15px rgba(91, 180, 80, 0.1);
+                background: #e9ecef;
             }
 
             .table tbody tr:last-child {
@@ -559,16 +550,17 @@
             }
 
             .table tbody td {
-                padding: 1.25rem 1rem;
-                vertical-align: middle;
+                padding: 0.75rem 1rem;
                 border: none;
-                color: var(--dark-text);
-                font-weight: 500;
+                vertical-align: middle;
+                font-size: 0.9rem;
+                color: #495057;
             }
 
             .table tbody td:first-child {
                 font-weight: 600;
-                color: var(--secondary-color);
+                color: #007bff;
+                font-size: 0.9rem;
             }
 
             /* Role Badge Styles */
@@ -932,76 +924,119 @@
 
                 <!-- Add User Form -->
                 <% if (!"CASHIER".equals(role)) { %>
-                <div class="content-card">
-                    <div class="card-title">
-                        <span>
-                            <i class="bi bi-person-plus"></i>
-                            Add New User
-                        </span>
+                <div class="content-card" style="background: white; border: 1px solid #e9ecef; color: #2c3e50;">
+                    <div class="card-title" style="color: #2c3e50; text-align: center; margin-bottom: 2rem;">
+                        <span><i class="bi bi-person-plus-fill me-2" style="color: #46923c;"></i>Create New User Account</span>
                     </div>
                     
-                    <form action="UserServlet" method="post">
+                    <form action="UserServlet" method="post" style="max-width: 900px; margin: 0 auto;">
                         <input type="hidden" name="action" value="create">
                         
                         <div class="row">
+                            <!-- Account Information Section - Left Side -->
                             <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="username" class="form-label">Username</label>
-                                    <input type="text" class="form-control" id="username" name="username" required>
+                                <div class="form-section" style="background: rgba(91, 180, 80, 0.1); border-radius: 15px; padding: 1.5rem; margin-bottom: 1.5rem; border: 1px solid rgba(91, 180, 80, 0.2);">
+                                    <h5 style="color: #2c3e50; margin-bottom: 1rem; text-align: center; font-weight: 600;">
+                                        <i class="bi bi-shield-lock me-2" style="color: #46923c;"></i>Account Details
+                                    </h5>
+                                    
+                                    <div class="form-group" style="margin-bottom: 1rem;">
+                                        <label for="username" style="color: #2c3e50; font-weight: 500; margin-bottom: 0.5rem;">Username</label>
+                                        <input type="text" class="form-control" id="username" name="username" required 
+                                               style="background: white; border: 1px solid #e9ecef; border-radius: 10px; padding: 0.75rem;">
+                                    </div>
+                                    
+                                    <div class="form-group" style="margin-bottom: 1rem;">
+                                        <label for="email" style="color: #2c3e50; font-weight: 500; margin-bottom: 0.5rem;">Email Address</label>
+                                        <input type="email" class="form-control" id="email" name="email" required 
+                                               style="background: white; border: 1px solid #e9ecef; border-radius: 10px; padding: 0.75rem;">
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="password" style="color: #2c3e50; font-weight: 500; margin-bottom: 0.5rem;">Password</label>
+                                        <div class="input-group">
+                                            <input type="password" class="form-control" id="password" name="password" required 
+                                                   style="background: white; border: 1px solid #e9ecef; border-radius: 10px 0 0 10px; padding: 0.75rem;">
+                                            <button class="btn" type="button" onclick="togglePassword('password')"
+                                                    style="background: #6c757d; border: none; border-radius: 0 10px 10px 0; color: white; padding: 0.75rem 1rem;">
+                                                <i class="bi bi-eye" id="passwordIcon"></i>
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
+                            
+                            <!-- Role Assignment Section - Right Side -->
                             <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="email" class="form-label">Email Address</label>
-                                    <input type="email" class="form-control" id="email" name="email" required>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="password" class="form-label">Password</label>
-                                    <input type="password" class="form-control" id="password" name="password" required>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="role_id" class="form-label">User Role</label>
-                                    <select class="form-control" id="role_id" name="role_id" required>
-                                        <option value="">Select Role</option>
-                                        <!-- Note: ADMIN can only create system users (ADMIN, MANAGER, CASHIER). CUSTOMER accounts are created through customer registration. -->
-                                        <%
-                                            List<UserRole> userRoles = (List<UserRole>) request.getAttribute("userRoles");
-                                            if (userRoles != null) {
-                                                for (UserRole userRole : userRoles) {
-                                                    // Role-based filtering - ADMIN can only create system users (ADMIN, MANAGER, CASHIER)
-                                                    boolean canCreate = false;
-                                                    if ("ADMIN".equals(role)) {
-                                                        // Admin can only create ADMIN, MANAGER, CASHIER (system users)
-                                                        canCreate = !"CUSTOMER".equals(userRole.getRoleName());
-                                                    } else if ("MANAGER".equals(role)) {
-                                                        canCreate = "CASHIER".equals(userRole.getRoleName());
-                                                    } else if ("CASHIER".equals(role)) {
-                                                        canCreate = "CUSTOMER".equals(userRole.getRoleName());
-                                                    }
-                                                    
-                                                    if (canCreate) {
-                                        %>
-                                        <option value="<%= userRole.getRoleId() %>"><%= userRole.getRoleName() %></option>
-                                        <%
+                                <div class="form-section" style="background: rgba(91, 180, 80, 0.1); border-radius: 15px; padding: 1.5rem; margin-bottom: 1.5rem; border: 1px solid rgba(91, 180, 80, 0.2);">
+                                    <h5 style="color: #2c3e50; margin-bottom: 1rem; text-align: center; font-weight: 600;">
+                                        <i class="bi bi-person-badge me-2" style="color: #46923c;"></i>Role Assignment
+                                    </h5>
+                                    
+                                    <div class="form-group">
+                                        <label for="role_id" style="color: #2c3e50; font-weight: 500; margin-bottom: 0.5rem;">User Role</label>
+                                        <select class="form-control" id="role_id" name="role_id" required 
+                                                style="background: white; border: 1px solid #e9ecef; border-radius: 10px; padding: 0.75rem;">
+                                            <option value="">Select Role</option>
+                                            <!-- Note: ADMIN can only create system users (ADMIN, MANAGER, CASHIER). CUSTOMER accounts are created through customer registration. -->
+                                            <%
+                                                List<UserRole> userRoles = (List<UserRole>) request.getAttribute("userRoles");
+                                                if (userRoles != null) {
+                                                    for (UserRole userRole : userRoles) {
+                                                        // Role-based filtering - ADMIN can only create system users (ADMIN, MANAGER, CASHIER)
+                                                        boolean canCreate = false;
+                                                        if ("ADMIN".equals(role)) {
+                                                            // Admin can only create ADMIN, MANAGER, CASHIER (system users)
+                                                            canCreate = !"CUSTOMER".equals(userRole.getRoleName());
+                                                        } else if ("MANAGER".equals(role)) {
+                                                            canCreate = "CASHIER".equals(userRole.getRoleName());
+                                                        } else if ("CASHIER".equals(role)) {
+                                                            canCreate = "CUSTOMER".equals(userRole.getRoleName());
+                                                        }
+                                                        
+                                                        if (canCreate) {
+                                            %>
+                                            <option value="<%= userRole.getRoleId() %>"><%= userRole.getRoleName() %></option>
+                                            <%
+                                                        }
                                                     }
                                                 }
-                                            }
-                                        %>
-                                    </select>
+                                            %>
+                                        </select>
+                                        <small style="color: #6c757d; font-size: 0.8rem; margin-top: 0.5rem; display: block;">
+                                            <i class="bi bi-info-circle me-1" style="color: #46923c;"></i>
+                                            Select the appropriate role for this user account
+                                        </small>
+                                    </div>
+                                    
+                                    <!-- Role Information Display -->
+                                    <div class="role-info" style="background: white; border-radius: 10px; padding: 1rem; margin-top: 1rem; border: 1px solid #e9ecef;">
+                                        <h6 style="color: #2c3e50; font-weight: 600; margin-bottom: 0.5rem;">
+                                            <i class="bi bi-lightbulb me-2" style="color: #46923c;"></i>Role Permissions
+                                        </h6>
+                                        <div style="color: #2c3e50; font-size: 0.85rem;">
+                                            <div style="margin-bottom: 0.5rem;">
+                                                <strong style="color: #dc3545;">ADMIN:</strong> Full system access and user management
+                                            </div>
+                                            <div style="margin-bottom: 0.5rem;">
+                                                <strong style="color: #ffc107;">MANAGER:</strong> Book and stock management, reports
+                                            </div>
+                                            <div style="margin-bottom: 0.5rem;">
+                                                <strong style="color: #17a2b8;">CASHIER:</strong> Sales transactions and customer service
+                                            </div>
+                                            <div>
+                                                <strong style="color: #6c757d;">CUSTOMER:</strong> Book browsing and purchasing
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         
-                        <div class="text-end">
-                            <button type="submit" class="btn btn-primary">
-                                <i class="bi bi-plus-circle"></i> Add User
+                        <div style="text-align: center;">
+                            <button type="submit" class="btn btn-outline-success btn-sm" 
+                                    style="border: 2px solid #28a745; color: #28a745; background: transparent; padding: 0.5rem 1.5rem; border-radius: 15px; font-weight: 600; font-size: 0.9rem;">
+                                <i class="bi bi-person-plus-fill me-2"></i>Create User Account
                             </button>
                         </div>
                     </form>
@@ -1017,7 +1052,7 @@
                         </span>
                         <div>
                             <a href="UserServlet?action=list" class="btn btn-primary">
-                                <i class="bi bi-arrow-clockwise"></i> Refresh
+                                <i class="bi bi-arrow-clockwise" style="color: white;"></i> Refresh
                             </a>
                         </div>
                     </div>
@@ -1094,10 +1129,10 @@
                                     <td><%= user.getCreatedAt() != null ? user.getCreatedAt().toString() : "N/A" %></td>
                                     <td>
                                         <% if (!"CASHIER".equals(user.getRole().getRoleName())) { %>
-                                        <button class="btn btn-edit btn-sm" onclick="editUser(<%= user.getUserId() %>)">
+                                        <button class="btn btn-edit btn-sm" data-user-id="<%= user.getUserId() %>" data-action="edit">
                                             <i class="bi bi-pencil"></i>
                                         </button>
-                                        <button class="btn btn-delete btn-sm" onclick="deleteUser(<%= user.getUserId() %>)">
+                                        <button class="btn btn-delete btn-sm" data-user-id="<%= user.getUserId() %>" data-action="delete">
                                             <i class="bi bi-trash"></i>
                                         </button>
                                         <% } %>
@@ -1236,6 +1271,39 @@
                     }
                 }, 3000);
             }
+
+            // Toggle password visibility
+            function togglePassword(inputId) {
+                const input = document.getElementById(inputId);
+                const icon = document.getElementById(inputId + 'Icon');
+                
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    icon.classList.remove('bi-eye');
+                    icon.classList.add('bi-eye-slash');
+                } else {
+                    input.type = 'password';
+                    icon.classList.remove('bi-eye-slash');
+                    icon.classList.add('bi-eye');
+                }
+            }
+
+            // Event delegation for user management buttons
+            document.addEventListener('DOMContentLoaded', function() {
+                document.addEventListener('click', function(event) {
+                    const target = event.target.closest('[data-action]');
+                    if (target) {
+                        const action = target.getAttribute('data-action');
+                        const userId = target.getAttribute('data-user-id');
+                        
+                        if (action === 'edit' && userId) {
+                            editUser(userId);
+                        } else if (action === 'delete' && userId) {
+                            deleteUser(userId);
+                        }
+                    }
+                });
+            });
         </script>
     </body>
 </html> 
