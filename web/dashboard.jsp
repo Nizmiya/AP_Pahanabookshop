@@ -141,6 +141,10 @@
                 text-decoration: none;
                 box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
             }
+
+            .nav-link::before {
+                content: '';
+                position: absolute;
                 top: 0;
                 left: -100%;
                 width: 100%;
@@ -312,20 +316,45 @@
             /* Modern Stats Cards */
             .stats-grid {
                 display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                grid-template-columns: repeat(4, 1fr);
                 gap: 1.5rem;
                 margin-bottom: 2rem;
             }
 
             .stat-card {
-                background: var(--white);
+                background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
                 border-radius: 20px;
-                padding: 2rem;
-                box-shadow: var(--shadow);
-                border: 1px solid var(--border-color);
-                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                padding: 2rem 1.5rem;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+                border: none;
+                transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
                 position: relative;
                 overflow: hidden;
+                min-height: 160px;
+                backdrop-filter: blur(10px);
+            }
+
+            .stat-card::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 4px;
+                background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+                z-index: 1;
+            }
+
+            .stat-card::after {
+                content: '';
+                position: absolute;
+                top: -50%;
+                right: -50%;
+                width: 100%;
+                height: 100%;
+                background: radial-gradient(circle, rgba(91, 180, 80, 0.03) 0%, transparent 70%);
+                border-radius: 50%;
+                transition: all 0.4s ease;
             }
 
             .stat-card::before {
@@ -339,51 +368,67 @@
             }
 
             .stat-card:hover {
-                transform: translateY(-8px);
-                box-shadow: var(--shadow-hover);
+                transform: translateY(-8px) scale(1.02);
+                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+            }
+
+            .stat-card:hover::after {
+                transform: scale(1.2);
+                opacity: 0.8;
+            }
+
+            .stat-card.primary::before {
+                background: linear-gradient(90deg, #667eea, #764ba2);
             }
 
             .stat-card.success::before {
-                background: linear-gradient(90deg, #28a745, #20c997);
+                background: linear-gradient(90deg, #11998e, #38ef7d);
             }
 
             .stat-card.info::before {
-                background: linear-gradient(90deg, #17a2b8, #6f42c1);
+                background: linear-gradient(90deg, #4facfe, #00f2fe);
             }
 
             .stat-card.warning::before {
-                background: linear-gradient(90deg, #ffc107, #fd7e14);
-            }
-
-            .stat-card.danger::before {
-                background: linear-gradient(90deg, #dc3545, #e83e8c);
+                background: linear-gradient(90deg, #fa709a, #fee140);
             }
 
             .stat-header {
                 display: flex;
                 justify-content: space-between;
-                align-items: center;
+                align-items: flex-start;
                 margin-bottom: 1.5rem;
+                position: relative;
+                z-index: 2;
             }
 
             .stat-title {
-                font-size: 0.9rem;
-                color: var(--light-text);
-                font-weight: 600;
+                font-size: 0.85rem;
+                color: #6c757d;
+                font-weight: 700;
                 text-transform: uppercase;
-                letter-spacing: 1px;
+                letter-spacing: 1.5px;
+                margin-bottom: 0.5rem;
             }
 
             .stat-icon {
-                width: 50px;
-                height: 50px;
-                border-radius: 15px;
+                width: 48px;
+                height: 48px;
+                border-radius: 16px;
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                font-size: 1.4rem;
+                font-size: 1.3rem;
                 color: var(--white);
-                box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+                box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+                position: relative;
+                z-index: 2;
+                transition: all 0.3s ease;
+            }
+
+            .stat-card:hover .stat-icon {
+                transform: scale(1.1) rotate(5deg);
+                box-shadow: 0 12px 35px rgba(0,0,0,0.25);
             }
 
             .stat-card.success .stat-icon {
@@ -402,34 +447,65 @@
                 background: linear-gradient(135deg, #dc3545, #e83e8c);
             }
 
+            .stat-card.primary .stat-icon {
+                background: linear-gradient(135deg, #667eea, #764ba2);
+            }
+
             .stat-value {
-                font-size: 2.5rem;
-                font-weight: 800;
-                color: var(--dark-text);
+                font-size: 2.2rem;
+                font-weight: 900;
+                background: linear-gradient(135deg, #2c3e50, #34495e);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
                 margin-bottom: 0.75rem;
                 line-height: 1;
+                position: relative;
+                z-index: 2;
             }
 
             .stat-change {
                 display: flex;
                 align-items: center;
-                font-size: 0.9rem;
-                font-weight: 600;
+                font-size: 0.75rem;
+                font-weight: 700;
                 padding: 0.5rem 1rem;
-                border-radius: 10px;
-                background: rgba(91, 180, 80, 0.1);
+                border-radius: 12px;
+                background: linear-gradient(135deg, rgba(91, 180, 80, 0.1), rgba(70, 146, 60, 0.1));
                 color: var(--secondary-color);
                 width: fit-content;
+                position: relative;
+                z-index: 2;
+                transition: all 0.3s ease;
+                border: 1px solid rgba(91, 180, 80, 0.2);
+            }
+
+            .stat-change:hover {
+                background: linear-gradient(135deg, rgba(91, 180, 80, 0.15), rgba(70, 146, 60, 0.15));
+                transform: translateY(-1px);
+                box-shadow: 0 4px 12px rgba(91, 180, 80, 0.2);
             }
 
             .stat-change.positive {
-                background: rgba(40, 167, 69, 0.1);
+                background: linear-gradient(135deg, rgba(40, 167, 69, 0.1), rgba(32, 201, 151, 0.1));
                 color: #28a745;
+                border-color: rgba(40, 167, 69, 0.3);
+            }
+
+            .stat-change.positive:hover {
+                background: linear-gradient(135deg, rgba(40, 167, 69, 0.15), rgba(32, 201, 151, 0.15));
+                box-shadow: 0 4px 12px rgba(40, 167, 69, 0.2);
             }
 
             .stat-change.negative {
-                background: rgba(220, 53, 69, 0.1);
+                background: linear-gradient(135deg, rgba(220, 53, 69, 0.1), rgba(232, 62, 140, 0.1));
                 color: #dc3545;
+                border-color: rgba(220, 53, 69, 0.3);
+            }
+
+            .stat-change.negative:hover {
+                background: linear-gradient(135deg, rgba(220, 53, 69, 0.15), rgba(232, 62, 140, 0.15));
+                box-shadow: 0 4px 12px rgba(220, 53, 69, 0.2);
             }
 
             /* Modern Chart Section */
@@ -438,6 +514,137 @@
                 grid-template-columns: 1fr;
                 gap: 1.5rem;
                 margin-bottom: 2rem;
+            }
+
+            .chart-container-wrapper {
+                display: grid;
+                grid-template-columns: 1fr auto;
+                gap: 1.5rem;
+                align-items: start;
+            }
+
+            .quick-actions {
+                display: flex;
+                flex-direction: column;
+                gap: 0.75rem;
+                min-width: 160px;
+            }
+
+            .quick-actions-label {
+                font-size: 0.9rem;
+                font-weight: 700;
+                color: var(--dark-text);
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                margin-bottom: 0.5rem;
+                text-align: center;
+                padding: 0.5rem;
+                background: linear-gradient(135deg, rgba(91, 180, 80, 0.1), rgba(70, 146, 60, 0.1));
+                border-radius: 8px;
+                border: 1px solid rgba(91, 180, 80, 0.2);
+            }
+
+            .quick-action-btn {
+                background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+                border: 2px solid transparent;
+                border-radius: 12px;
+                padding: 0.8rem 0.75rem;
+                text-decoration: none;
+                color: var(--dark-text);
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                display: flex;
+                align-items: center;
+                text-align: left;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+                position: relative;
+                overflow: hidden;
+            }
+
+            .quick-action-btn.books {
+                border-color: rgba(102, 126, 234, 0.3);
+                background: linear-gradient(135deg, rgba(102, 126, 234, 0.05), rgba(118, 75, 162, 0.05));
+            }
+
+            .quick-action-btn.customers {
+                border-color: rgba(17, 153, 142, 0.3);
+                background: linear-gradient(135deg, rgba(17, 153, 142, 0.05), rgba(56, 239, 125, 0.05));
+            }
+
+            .quick-action-btn.transactions {
+                border-color: rgba(79, 172, 254, 0.3);
+                background: linear-gradient(135deg, rgba(79, 172, 254, 0.05), rgba(0, 242, 254, 0.05));
+            }
+
+            .quick-action-btn.stock {
+                border-color: rgba(250, 112, 154, 0.3);
+                background: linear-gradient(135deg, rgba(250, 112, 154, 0.05), rgba(254, 225, 64, 0.05));
+            }
+
+            .quick-action-btn::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 3px;
+                background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+                transform: scaleX(0);
+                transition: transform 0.3s ease;
+            }
+
+            .quick-action-btn:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+                text-decoration: none;
+                color: var(--dark-text);
+            }
+
+            .quick-action-btn.books:hover {
+                border-color: rgba(102, 126, 234, 0.6);
+                background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            }
+
+            .quick-action-btn.customers:hover {
+                border-color: rgba(17, 153, 142, 0.6);
+                background: linear-gradient(135deg, rgba(17, 153, 142, 0.1), rgba(56, 239, 125, 0.1));
+            }
+
+            .quick-action-btn.transactions:hover {
+                border-color: rgba(79, 172, 254, 0.6);
+                background: linear-gradient(135deg, rgba(79, 172, 254, 0.1), rgba(0, 242, 254, 0.1));
+            }
+
+            .quick-action-btn.stock:hover {
+                border-color: rgba(250, 112, 154, 0.6);
+                background: linear-gradient(135deg, rgba(250, 112, 154, 0.1), rgba(254, 225, 64, 0.1));
+            }
+
+            .quick-action-btn:hover::before {
+                transform: scaleX(1);
+            }
+
+            .quick-action-icon {
+                width: 32px;
+                height: 32px;
+                border-radius: 8px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 1rem;
+                color: var(--white);
+                margin-right: 0.75rem;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+                flex-shrink: 0;
+            }
+
+            .quick-action-title {
+                font-size: 0.9rem;
+                font-weight: 600;
+                color: var(--dark-text);
+            }
+
+            .quick-action-desc {
+                display: none;
             }
 
             .chart-card {
@@ -505,7 +712,55 @@
                 }
 
                 .stats-grid {
+                    grid-template-columns: repeat(2, 1fr);
+                    gap: 0.75rem;
+                }
+                
+                .stat-card {
+                    padding: 1rem;
+                    min-height: 120px;
+                }
+                
+                .stat-value {
+                    font-size: 1.5rem;
+                }
+                
+                .stat-icon {
+                    width: 35px;
+                    height: 35px;
+                    font-size: 1rem;
+                }
+
+                .chart-container-wrapper {
                     grid-template-columns: 1fr;
+                    gap: 1rem;
+                }
+
+                .quick-actions {
+                    flex-direction: row;
+                    overflow-x: auto;
+                    min-width: auto;
+                    padding-bottom: 0.5rem;
+                }
+
+                .quick-action-btn {
+                    min-width: 120px;
+                    padding: 1rem 0.75rem;
+                }
+
+                .quick-action-icon {
+                    width: 35px;
+                    height: 35px;
+                    font-size: 1rem;
+                    margin-bottom: 0.5rem;
+                }
+
+                .quick-action-title {
+                    font-size: 0.75rem;
+                }
+
+                .quick-action-desc {
+                    font-size: 0.65rem;
                 }
 
                 .user-info {
@@ -610,11 +865,11 @@
                             stats = new com.booking.patterns.FacadeDP.DashboardStats();
                         }
                     %>
-                    <div class="stat-card success">
+                    <div class="stat-card primary">
                         <div class="stat-header">
                             <span class="stat-title">Total Books</span>
                             <div class="stat-icon">
-                                <i class="bi bi-book"></i>
+                                <i class="bi bi-collection"></i>
                             </div>
                         </div>
                         <div class="stat-value"><%= stats.getTotalBooks() %></div>
@@ -624,11 +879,11 @@
                         </div>
                     </div>
 
-                    <div class="stat-card info">
+                    <div class="stat-card success">
                         <div class="stat-header">
                             <span class="stat-title">Total Sales</span>
                             <div class="stat-icon">
-                                <i class="bi bi-currency-dollar"></i>
+                                <i class="bi bi-graph-up-arrow"></i>
                             </div>
                         </div>
                         <div class="stat-value"><%= stats.getTotalTransactions() %></div>
@@ -638,11 +893,11 @@
                         </div>
                     </div>
 
-                    <div class="stat-card warning">
+                    <div class="stat-card info">
                         <div class="stat-header">
                             <span class="stat-title">Total Customers</span>
                             <div class="stat-icon">
-                                <i class="bi bi-people"></i>
+                                <i class="bi bi-person-badge"></i>
                             </div>
                         </div>
                         <div class="stat-value"><%= stats.getTotalCustomers() %></div>
@@ -652,11 +907,11 @@
                         </div>
                     </div>
 
-                    <div class="stat-card danger">
+                    <div class="stat-card warning">
                         <div class="stat-header">
                             <span class="stat-title">Total Users</span>
                             <div class="stat-icon">
-                                <i class="bi bi-person-gear"></i>
+                                <i class="bi bi-shield-check"></i>
                             </div>
                         </div>
                         <div class="stat-value"><%= stats.getTotalUsers() %></div>
@@ -669,13 +924,51 @@
 
                 <!-- Charts Section -->
                 <div class="charts-section">
-                    <div class="chart-card">
-                        <h3 class="chart-title">
-                            <i class="bi bi-graph-up"></i>
-                            Transaction Sales (Last 30 Days)
-                        </h3>
-                        <div class="chart-container" style="position: relative; height: 350px;">
-                            <canvas id="salesChart"></canvas>
+                    <div class="chart-container-wrapper">
+                        <!-- Chart Card -->
+                        <div class="chart-card">
+                            <h3 class="chart-title">
+                                <i class="bi bi-graph-up"></i>
+                                Transaction Sales (Last 30 Days)
+                            </h3>
+                            <div class="chart-container" style="position: relative; height: 350px;">
+                                <canvas id="salesChart"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- Right Quick Actions -->
+                        <div class="quick-actions">
+                            <div class="quick-actions-label">
+                                <i class="bi bi-lightning-charge me-2"></i>Quick Actions
+                            </div>
+                            
+                            <a href="BookServlet?action=list" class="quick-action-btn books">
+                                <div class="quick-action-icon" style="background: linear-gradient(135deg, #667eea, #764ba2);">
+                                    <i class="bi bi-book"></i>
+                                </div>
+                                <div class="quick-action-title">Books</div>
+                            </a>
+                            
+                            <a href="CustomerServlet?action=list" class="quick-action-btn customers">
+                                <div class="quick-action-icon" style="background: linear-gradient(135deg, #11998e, #38ef7d);">
+                                    <i class="bi bi-people"></i>
+                                </div>
+                                <div class="quick-action-title">Customers</div>
+                            </a>
+                            
+                            <a href="transaction.jsp" class="quick-action-btn transactions">
+                                <div class="quick-action-icon" style="background: linear-gradient(135deg, #4facfe, #00f2fe);">
+                                    <i class="bi bi-receipt"></i>
+                                </div>
+                                <div class="quick-action-title">Transactions</div>
+                            </a>
+                            
+                            <a href="StockServlet?action=list" class="quick-action-btn stock">
+                                <div class="quick-action-icon" style="background: linear-gradient(135deg, #fa709a, #fee140);">
+                                    <i class="bi bi-boxes"></i>
+                                </div>
+                                <div class="quick-action-title">Stock</div>
+                            </a>
                         </div>
                     </div>
                 </div>

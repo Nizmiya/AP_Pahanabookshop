@@ -146,6 +146,8 @@
                 text-decoration: none;
                 box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
             }
+
+            .nav-link {
                 position: relative;
                 overflow: hidden;
             }
@@ -756,7 +758,10 @@
                                 <a href="help_edit.jsp?help_id=<%= helpSection.getHelpId() %>" class="btn btn-warning ms-2">
                                     <i class="bi bi-pencil"></i> Edit
                                 </a>
-                                <button type="button" class="btn btn-danger ms-2" onclick="deleteHelpSection(<%= helpSection.getHelpId() %>, '<%= helpSection.getTitle() %>')">
+                                <button type="button" class="btn btn-danger ms-2" 
+                                        data-help-id="<%= helpSection.getHelpId() %>" 
+                                        data-help-title="<%= helpSection.getTitle() %>"
+                                        onclick="deleteHelpSection(this.dataset.helpId, this.dataset.helpTitle)">
                                     <i class="bi bi-trash"></i> Delete
                                 </button>
                             <% } %>

@@ -20,7 +20,7 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
         <style>
             body {
-                background: #f5f5f5 !important;
+                background: #cce7c9 !important;
                 min-height: 100vh;
                 font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
                 display: flex;
@@ -43,13 +43,14 @@
 
             .welcome-section {
                 flex: 1;
-                background: linear-gradient(135deg, #3b8132 0%, #2d6b25 100%) !important;
+                background: linear-gradient(135deg, #5bb450 0%, #4a9a3f 50%, #3b8132 100%) !important;
                 display: flex;
                 flex-direction: column;
                 justify-content: space-between;
                 padding: 40px;
                 position: relative;
                 overflow: hidden;
+                box-shadow: inset 0 0 100px rgba(0,0,0,0.1);
             }
 
             .welcome-section::before {
@@ -59,9 +60,28 @@
                 right: -50%;
                 width: 200%;
                 height: 200%;
-                background: linear-gradient(135deg, rgba(114, 191, 106, 0.3) 0%, rgba(101, 168, 94, 0.3) 100%);
+                background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
                 border-radius: 50%;
                 transform: rotate(-45deg);
+                animation: float 6s ease-in-out infinite;
+            }
+
+            .welcome-section::after {
+                content: '';
+                position: absolute;
+                top: -30%;
+                left: -30%;
+                width: 160%;
+                height: 160%;
+                background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.03) 100%);
+                border-radius: 50%;
+                transform: rotate(45deg);
+                animation: float 8s ease-in-out infinite reverse;
+            }
+
+            @keyframes float {
+                0%, 100% { transform: rotate(-45deg) translateY(0px); }
+                50% { transform: rotate(-45deg) translateY(-20px); }
             }
 
             .brand-section {
@@ -72,28 +92,48 @@
             }
 
             .brand-icon {
-                width: 60px;
-                height: 60px;
+                width: 80px;
+                height: 80px;
                 background: white !important;
                 border-radius: 50%;
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                margin: 0 auto 15px;
-                box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+                margin: 0 auto 20px;
+                box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+                transition: all 0.3s ease;
+                animation: pulse 2s ease-in-out infinite;
+            }
+
+            .brand-icon:hover {
+                transform: scale(1.1);
+                box-shadow: 0 12px 35px rgba(0,0,0,0.4);
+            }
+
+            @keyframes pulse {
+                0%, 100% { transform: scale(1); }
+                50% { transform: scale(1.05); }
             }
 
             .brand-icon i {
-                font-size: 24px;
+                font-size: 32px;
                 color: #3b8132;
+                animation: bounce 2s ease-in-out infinite;
+            }
+
+            @keyframes bounce {
+                0%, 100% { transform: translateY(0); }
+                50% { transform: translateY(-5px); }
             }
 
             .brand-name {
                 color: white !important;
-                font-size: 18px;
-                font-weight: 600;
-                text-transform: lowercase;
-                letter-spacing: 1px;
+                font-size: 20px;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 2px;
+                text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+                margin-bottom: 10px;
             }
 
             .welcome-content {
@@ -103,15 +143,28 @@
                 flex-grow: 1;
                 display: flex;
                 flex-direction: column;
-                justify-content: center;
+                justify-content: flex-start;
+                padding-top: 20px;
             }
 
             .welcome-title {
-                color: #a8d8a0 !important;
-                font-size: 2.5rem;
-                font-weight: 700;
-                margin-bottom: 15px;
+                color: white !important;
+                font-size: 3rem;
+                font-weight: 800;
+                margin-bottom: 10px;
                 text-transform: uppercase;
+                text-shadow: 0 4px 8px rgba(0,0,0,0.3);
+                letter-spacing: 2px;
+            }
+
+            .shop-description {
+                color: rgba(255,255,255,0.9) !important;
+                font-size: 1rem;
+                font-weight: 500;
+                margin-bottom: 30px;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                text-shadow: 0 1px 2px rgba(0,0,0,0.2);
             }
 
             .welcome-subtitle {
@@ -198,6 +251,16 @@
 
             .form-group {
                 margin-bottom: 20px;
+            }
+
+            .form-label {
+                display: block;
+                margin-bottom: 8px;
+                font-weight: 600;
+                color: #3b8132;
+                font-size: 14px;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
             }
 
             .form-control {
@@ -382,12 +445,12 @@
                     <div class="brand-icon">
                         <i class="bi bi-book"></i>
                     </div>
-                    <div class="brand-name">bookclub</div>
+                    <div class="brand-name">Pahana Edu BookShop</div>
                 </div>
                 <div class="welcome-content">
                     <h1 class="welcome-title">Welcome Back!</h1>
+                    <p class="shop-description">Sri Lanka, Colombo - Best Book Shop</p>
                     <p class="welcome-subtitle">To stay connected with us please login with your personal info</p>
-                    <a href="#" class="signin-button">Sign In</a>
                 </div>
                 <div class="footer-text">
                     CREATOR HERE | DIRECTOR HERE
@@ -412,19 +475,21 @@
                         </div>
                         <% }%>
 
-                        <h1 class="form-title">welcome</h1>
+                        <h1 class="form-title">Login</h1>
                         <p class="form-subtitle">Login in to your account to continue</p>
 
                         <form action="LoginServlet" method="post">
                             <input type="hidden" name="action" value="login">
                             
                             <div class="form-group">
-                                <input type="text" class="form-control" id="username" name="username" placeholder="Email..........." required>
+                                <label for="username" class="form-label">Username</label>
+                                <input type="text" class="form-control" id="username" name="username" placeholder="Enter Username" required>
                             </div>
 
                             <div class="form-group">
+                                <label for="password" class="form-label">Password</label>
                                 <div class="password-container">
-                                    <input type="password" class="form-control" id="password" name="password" placeholder="Password........" required>
+                                    <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password" required>
                                     <button type="button" class="password-toggle" onclick="togglePasswordVisibility('password')">
                                         <i class="bi bi-eye-slash" id="password-toggle-icon"></i>
                                     </button>

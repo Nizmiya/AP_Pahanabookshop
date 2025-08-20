@@ -148,6 +148,8 @@
                 text-decoration: none;
                 box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
             }
+
+            .nav-link {
                 transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
                 font-weight: 500;
                 position: relative;

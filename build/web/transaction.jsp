@@ -147,8 +147,6 @@
                 text-decoration: none;
                 box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
             }
-                overflow: hidden;
-            }
 
             .nav-link::before {
                 content: '';
@@ -422,52 +420,47 @@
                 font-size: 0.8rem;
             }
 
-            /* Modern Table Styles */
+            /* Clean Simple Table Styles */
             .table-responsive {
-                border-radius: 15px;
+                border-radius: 8px;
                 overflow: hidden;
-                border: 1px solid var(--border-color);
-                box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+                border: 1px solid #e9ecef;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+                background: white;
             }
 
             .table {
                 margin-bottom: 0;
-                background: var(--white);
+                background: white;
+                border-collapse: separate;
+                border-spacing: 0;
             }
 
             .table thead th {
-                background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-                color: var(--white);
+                background: #f8f9fa;
+                color: #495057;
                 border: none;
-                padding: 1.25rem 1.5rem;
-                font-weight: 700;
-                font-size: 0.9rem;
-                text-transform: uppercase;
-                letter-spacing: 1px;
-                text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+                padding: 12px 16px;
+                font-weight: 600;
+                font-size: 14px;
+                text-transform: none;
+                letter-spacing: normal;
+                border-bottom: 2px solid #dee2e6;
                 position: relative;
             }
 
-            .table thead th::after {
-                content: '';
-                position: absolute;
-                bottom: 0;
-                left: 0;
-                right: 0;
-                height: 2px;
-                background: linear-gradient(90deg, var(--accent-color), var(--secondary-color));
+            .table tbody tr {
+                border-bottom: 1px solid #f1f3f4;
+                transition: background-color 0.2s ease;
+                background: white;
             }
 
-            .table tbody tr {
-                border-bottom: 1px solid rgba(91, 180, 80, 0.1);
-                transition: all 0.3s ease;
-                background: var(--white);
+            .table tbody tr:nth-child(even) {
+                background: #f8f9fa;
             }
 
             .table tbody tr:hover {
-                background: linear-gradient(135deg, rgba(91, 180, 80, 0.05), rgba(70, 146, 60, 0.05));
-                transform: scale(1.01);
-                box-shadow: 0 4px 15px rgba(91, 180, 80, 0.1);
+                background: #e9ecef;
             }
 
             .table tbody tr:last-child {
@@ -475,38 +468,38 @@
             }
 
             .table tbody td {
-                padding: 1rem 1.5rem;
+                padding: 12px 16px;
                 border: none;
                 vertical-align: middle;
-                font-size: 0.95rem;
-                color: var(--dark-text);
+                font-size: 14px;
+                color: #495057;
             }
 
             .table tbody td:first-child {
-                font-weight: 700;
-                color: var(--primary-color);
-                font-size: 1rem;
+                font-weight: 600;
+                color: #007bff;
+                font-size: 14px;
             }
 
             .table tbody td:nth-child(3) {
-                font-weight: 700;
-                color: var(--success-color);
-                font-size: 1.1rem;
+                font-weight: 600;
+                color: #28a745;
+                font-size: 14px;
             }
 
             .table tbody td:nth-child(4) {
-                color: var(--light-text);
+                color: #6c757d;
                 font-weight: 500;
             }
 
             .table tbody td:nth-child(5) {
-                color: var(--dark-text);
-                font-size: 0.9rem;
+                color: #495057;
+                font-size: 13px;
                 font-weight: 500;
             }
 
             .btn-info {
-                background: linear-gradient(135deg, var(--info-color), #138496);
+                background: linear-gradient(135deg, #fa709a, #fee140);
                 border: none;
                 padding: 0.5rem 1rem;
                 border-radius: 10px;
@@ -521,10 +514,10 @@
             }
 
             .btn-info:hover {
-                background: linear-gradient(135deg, #138496, #117a8b);
+                background: linear-gradient(135deg, #fee140, #fa709a);
                 transform: translateY(-2px);
                 color: var(--white);
-                box-shadow: 0 4px 15px rgba(23, 162, 184, 0.3);
+                box-shadow: 0 4px 15px rgba(250, 112, 154, 0.3);
                 text-decoration: none;
             }
 
@@ -749,18 +742,38 @@
                         </span>
                         <div>
                             <a href="TransactionServlet?action=list" class="btn btn-secondary">
-                                <i class="bi bi-arrow-clockwise"></i>Refresh
+                                <i class="bi bi-arrow-clockwise" style="color: white;"></i>Refresh
                             </a>
                             <% if (!"CUSTOMER".equals(role)) { %>
                             <a href="pos.jsp" class="btn btn-primary">
-                                <i class="bi bi-cart-plus"></i>New Transaction
+                                <i class="bi bi-cart-plus" style="color: white;"></i>New Transaction
                             </a>
                             <% } %>
                         </div>
                     </h3>
                     
+                    <!-- Search Bar -->
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="bi bi-search"></i>
+                                </span>
+                                <input type="text" class="form-control" id="searchInput" 
+                                       placeholder="Search transactions by ID, customer, or amount..." 
+                                       onkeyup="filterTransactions()">
+                                <button class="btn btn-outline-secondary" type="button" onclick="clearSearch()">
+                                    <i class="bi bi-x-circle"></i> Clear
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-md-6 text-end">
+                            <span class="text-muted" id="transactionCount">0 transactions found</span>
+                        </div>
+                    </div>
+                    
                     <div class="table-responsive">
-                        <table class="table table-hover">
+                        <table class="table table-hover" id="transactionTable">
                             <thead>
                                 <tr>
                                     <th>Transaction ID</th>
@@ -792,7 +805,7 @@
                                     <td><%= transaction.getCreatedAt() %></td>
                                     <td>
                                         <a href="TransactionServlet?action=view&transaction_id=<%= transaction.getTransactionId() %>" 
-                                           class="btn btn-info">
+                                           class="btn btn-outline-info btn-sm" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; border: 1px solid #17a2b8; color: #17a2b8; background: transparent;">
                                             <i class="bi bi-eye"></i>View
                                         </a>
                                     </td>
@@ -839,6 +852,53 @@
                         sidebar.classList.remove('show');
                     }
                 }
+            });
+
+            // Search and filter transactions
+            function filterTransactions() {
+                const searchInput = document.getElementById('searchInput');
+                const filter = searchInput.value.toLowerCase();
+                const table = document.getElementById('transactionTable');
+                const rows = table.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+                let visibleCount = 0;
+
+                for (let i = 0; i < rows.length; i++) {
+                    const row = rows[i];
+                    const transactionId = row.cells[0].textContent.toLowerCase();
+                    const customer = row.cells[1] ? row.cells[1].textContent.toLowerCase() : '';
+                    const amount = row.cells[2].textContent.toLowerCase();
+                    
+                    if (transactionId.includes(filter) || customer.includes(filter) || amount.includes(filter)) {
+                        row.style.display = '';
+                        visibleCount++;
+                    } else {
+                        row.style.display = 'none';
+                    }
+                }
+
+                // Update count
+                document.getElementById('transactionCount').textContent = visibleCount + ' transactions found';
+            }
+
+            // Clear search
+            function clearSearch() {
+                document.getElementById('searchInput').value = '';
+                filterTransactions();
+            }
+
+            // Initialize count on page load
+            document.addEventListener('DOMContentLoaded', function() {
+                const table = document.getElementById('transactionTable');
+                const rows = table.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+                let visibleCount = 0;
+                
+                for (let i = 0; i < rows.length; i++) {
+                    if (!rows[i].cells[0].textContent.includes('No transactions found')) {
+                        visibleCount++;
+                    }
+                }
+                
+                document.getElementById('transactionCount').textContent = visibleCount + ' transactions found';
             });
         </script>
     </body>

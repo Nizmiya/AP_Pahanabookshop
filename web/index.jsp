@@ -124,6 +124,7 @@
                 box-shadow: 0 8px 25px rgba(0,0,0,0.2);
             }
 
+
             .hero-illustrations {
                 position: relative;
                 height: 100%;
@@ -151,6 +152,17 @@
                 left: 20%;
                 transform: rotate(-5deg);
             }
+
+            @keyframes float {
+                0%, 100% {
+                    transform: translateY(0px);
+                }
+                50% {
+                    transform: translateY(-10px);
+                }
+            }
+
+
 
             /* Section Styles */
             .section {
@@ -229,24 +241,25 @@
                 opacity: 0.9;
             }
 
-            /* Authors Section */
-            .authors-section {
+            /* Categories Section */
+            .categories-section {
                 background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
             }
 
-            .author-card {
+            .category-card {
                 background: white;
-                border-radius: 20px;
-                padding: 2rem;
-                box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+                border-radius: 10px;
+                padding: 0.75rem;
+                box-shadow: 0 3px 12px rgba(0,0,0,0.05);
                 height: 100%;
                 transition: all 0.3s ease;
                 text-align: center;
                 position: relative;
                 overflow: hidden;
+                cursor: pointer;
             }
 
-            .author-card::before {
+            .category-card::before {
                 content: '';
                 position: absolute;
                 top: 0;
@@ -256,70 +269,77 @@
                 background: linear-gradient(135deg, #5bb450 0%, #4a9a3f 100%);
             }
 
-            .author-card:hover {
+            .category-card:hover {
                 transform: translateY(-10px);
                 box-shadow: 0 20px 40px rgba(91, 180, 80, 0.2);
             }
 
-            .author-image {
+            .category-icon {
                 margin-bottom: 1.5rem;
             }
 
-            .author-image i {
-                font-size: 4rem;
+            .category-icon i {
+                font-size: 2rem;
                 color: #5bb450;
                 background: linear-gradient(135deg, #f0f8f0 0%, #e8f5e8 100%);
-                width: 100px;
-                height: 100px;
+                width: 60px;
+                height: 60px;
                 border-radius: 50%;
                 display: flex;
                 align-items: center;
                 justify-content: center;
                 margin: 0 auto;
-                border: 3px solid #5bb450;
+                border: 2px solid #5bb450;
+                transition: all 0.3s ease;
             }
 
-            .author-info h4 {
+            .category-card:hover .category-icon i {
+                transform: scale(1.1);
+                background: linear-gradient(135deg, #5bb450 0%, #4a9a3f 100%);
+                color: white;
+            }
+
+            .category-info h4 {
                 color: #333;
                 font-weight: 700;
-                margin-bottom: 0.5rem;
-                font-size: 1.3rem;
+                margin-bottom: 0.3rem;
+                font-size: 0.9rem;
             }
 
-            .author-genre {
+            .category-count {
                 color: #5bb450;
                 font-weight: 600;
-                font-size: 0.9rem;
-                margin-bottom: 1rem;
+                font-size: 0.75rem;
+                margin-bottom: 0.5rem;
                 text-transform: uppercase;
                 letter-spacing: 1px;
             }
 
-            .author-description {
+            .category-description {
                 color: #666;
-                font-size: 0.9rem;
-                line-height: 1.6;
-                margin-bottom: 1.5rem;
+                font-size: 0.7rem;
+                line-height: 1.2;
+                margin-bottom: 0.5rem;
             }
 
-            .author-books {
+            .category-features {
                 display: flex;
                 flex-wrap: wrap;
                 gap: 0.5rem;
                 justify-content: center;
             }
 
-            .book-tag {
+            .feature-tag {
                 background: linear-gradient(135deg, #5bb450 0%, #4a9a3f 100%);
                 color: white;
-                padding: 0.3rem 0.8rem;
-                border-radius: 15px;
-                font-size: 0.8rem;
+                padding: 0.2rem 0.5rem;
+                border-radius: 10px;
+                font-size: 0.65rem;
                 font-weight: 500;
                 transition: all 0.3s ease;
             }
 
-            .book-tag:hover {
+            .feature-tag:hover {
                 transform: scale(1.05);
                 box-shadow: 0 4px 10px rgba(91, 180, 80, 0.3);
             }
@@ -330,11 +350,92 @@
                 color: #333;
             }
 
+            .bookshop-details {
+                background: rgba(255,255,255,0.2);
+                border-radius: 15px;
+                padding: 1rem 1rem;
+                backdrop-filter: blur(10px);
+                height: 100%;
+                min-height: 350px;
+                box-shadow: 0 8px 25px rgba(0,0,0,0.06);
+            }
+
+            .contact-info {
+                display: flex;
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+
+            .contact-item {
+                display: flex;
+                align-items: flex-start;
+                gap: 1rem;
+                padding: 1rem;
+                background: rgba(255,255,255,0.1);
+                border-radius: 15px;
+                transition: all 0.3s ease;
+                margin-bottom: 0.5rem;
+            }
+
+            .contact-item:hover {
+                background: rgba(255,255,255,0.2);
+                transform: translateX(5px);
+            }
+
+            .contact-item-simple {
+                display: flex;
+                align-items: flex-start;
+                gap: 0.5rem;
+                padding: 0.25rem 0;
+                transition: all 0.3s ease;
+                margin-bottom: 0.5rem;
+                border-bottom: 1px solid rgba(255,255,255,0.1);
+            }
+
+            .contact-item-simple:last-child {
+                border-bottom: none;
+            }
+
+            .contact-item-simple:hover {
+                transform: translateX(5px);
+            }
+
+            .contact-icon {
+                background: linear-gradient(135deg, #5bb450, #4a9a3f);
+                color: white;
+                width: 35px;
+                height: 35px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 0.9rem;
+                flex-shrink: 0;
+                box-shadow: 0 3px 10px rgba(91, 180, 80, 0.2);
+            }
+
+            .contact-text h5 {
+                color: #2c3e50;
+                font-weight: 700;
+                margin-bottom: 0.15rem;
+                font-size: 0.9rem;
+            }
+
+            .contact-text p {
+                color: #2c3e50;
+                margin-bottom: 0.05rem;
+                font-size: 0.8rem;
+                opacity: 0.9;
+                line-height: 1.2;
+            }
+
             .contact-form {
                 background: rgba(255,255,255,0.2);
                 border-radius: 15px;
-                padding: 2rem;
+                padding: 1rem 1rem;
                 backdrop-filter: blur(10px);
+                min-height: 350px;
+                box-shadow: 0 8px 25px rgba(0,0,0,0.06);
             }
 
             .form-control {
@@ -385,6 +486,24 @@
                 .hero-illustrations {
                     display: none;
                 }
+                
+                .bookshop-details,
+                .contact-form {
+                    min-height: auto;
+                    padding: 2rem 1.5rem;
+                    margin-bottom: 2rem;
+                }
+                
+                .contact-item {
+                    padding: 1rem;
+                    gap: 1rem;
+                }
+                
+                .contact-icon {
+                    width: 50px;
+                    height: 50px;
+                    font-size: 1.2rem;
+                }
             }
 
             /* Smooth scrolling for anchor links */
@@ -414,7 +533,7 @@
                             <a class="nav-link" href="#about">About</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#authors">Authors</a>
+                            <a class="nav-link" href="#categories">Categories</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#services">Services</a>
@@ -503,80 +622,143 @@
             </div>
         </section>
 
-        <!-- Authors Section -->
-        <section id="authors" class="section authors-section">
+        <!-- Categories Section -->
+        <section id="categories" class="section categories-section">
             <div class="container">
-                <h2 class="section-title">Famous Authors</h2>
+                <h2 class="section-title">Famous Categories</h2>
                 <p class="section-subtitle">
-                    Discover the brilliant minds behind the world's most beloved books. 
-                    From classic literature to contemporary masterpieces.
+                    Explore our extensive collection of books across various categories. 
+                    From fiction to academic, find your perfect read.
                 </p>
                 
-                <div class="row g-4">
-                    <div class="col-lg-3 col-md-6">
-                        <div class="author-card">
-                            <div class="author-image">
-                                <i class="bi bi-person-circle"></i>
+                <div class="row g-2" style="margin-bottom: 1rem;">
+                    <div class="col-lg-3 col-md-4 col-sm-6">
+                        <div class="category-card">
+                            <div class="category-icon">
+                                <i class="bi bi-book"></i>
                             </div>
-                            <div class="author-info">
-                                <h4>William Shakespeare</h4>
-                                <p class="author-genre">Playwright & Poet</p>
-                                <p class="author-description">The Bard of Avon, known for timeless works like Romeo and Juliet, Hamlet, and Macbeth.</p>
-                                <div class="author-books">
-                                    <span class="book-tag">Hamlet</span>
-                                    <span class="book-tag">Macbeth</span>
-                                    <span class="book-tag">Romeo & Juliet</span>
+                            <div class="category-info">
+                                <h4>Fiction</h4>
+                                <p class="category-count">1000+ Books</p>
+                                <p class="category-description">Novels, short stories, and creative literature.</p>
+                                <div class="category-features">
+                                    <span class="feature-tag">Novels</span>
+                                    <span class="feature-tag">Stories</span>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-6">
-                        <div class="author-card">
-                            <div class="author-image">
-                                <i class="bi bi-person-circle"></i>
+                    <div class="col-lg-3 col-md-4 col-sm-6">
+                        <div class="category-card">
+                            <div class="category-icon">
+                                <i class="bi bi-mortarboard"></i>
                             </div>
-                            <div class="author-info">
-                                <h4>Jane Austen</h4>
-                                <p class="author-genre">Novelist</p>
-                                <p class="author-description">Master of romantic fiction, celebrated for her wit and social commentary.</p>
-                                <div class="author-books">
-                                    <span class="book-tag">Pride & Prejudice</span>
-                                    <span class="book-tag">Emma</span>
-                                    <span class="book-tag">Sense & Sensibility</span>
+                            <div class="category-info">
+                                <h4>Academic</h4>
+                                <p class="category-count">500+ Books</p>
+                                <p class="category-description">Textbooks and reference materials.</p>
+                                <div class="category-features">
+                                    <span class="feature-tag">Textbooks</span>
+                                    <span class="feature-tag">Reference</span>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-6">
-                        <div class="author-card">
-                            <div class="author-image">
-                                <i class="bi bi-person-circle"></i>
+                    <div class="col-lg-3 col-md-4 col-sm-6">
+                        <div class="category-card">
+                            <div class="category-icon">
+                                <i class="bi bi-stars"></i>
                             </div>
-                            <div class="author-info">
-                                <h4>J.K. Rowling</h4>
-                                <p class="author-genre">Fantasy Author</p>
-                                <p class="author-description">Creator of the magical world of Harry Potter, inspiring millions of readers worldwide.</p>
-                                <div class="author-books">
-                                    <span class="book-tag">Harry Potter</span>
-                                    <span class="book-tag">Fantastic Beasts</span>
-                                    <span class="book-tag">The Casual Vacancy</span>
+                            <div class="category-info">
+                                <h4>Fantasy & Sci-Fi</h4>
+                                <p class="category-count">800+ Books</p>
+                                <p class="category-description">Magical and futuristic worlds.</p>
+                                <div class="category-features">
+                                    <span class="feature-tag">Fantasy</span>
+                                    <span class="feature-tag">Sci-Fi</span>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-6">
-                        <div class="author-card">
-                            <div class="author-image">
-                                <i class="bi bi-person-circle"></i>
+                    <div class="col-lg-3 col-md-4 col-sm-6">
+                        <div class="category-card">
+                            <div class="category-icon">
+                                <i class="bi bi-code-slash"></i>
                             </div>
-                            <div class="author-info">
-                                <h4>George R.R. Martin</h4>
-                                <p class="author-genre">Fantasy Writer</p>
-                                <p class="author-description">Creator of the epic fantasy series A Song of Ice and Fire, adapted as Game of Thrones.</p>
-                                <div class="author-books">
-                                    <span class="book-tag">Game of Thrones</span>
-                                    <span class="book-tag">A Clash of Kings</span>
-                                    <span class="book-tag">A Storm of Swords</span>
+                            <div class="category-info">
+                                <h4>Technology</h4>
+                                <p class="category-count">400+ Books</p>
+                                <p class="category-description">Programming and tech guides.</p>
+                                <div class="category-features">
+                                    <span class="feature-tag">Programming</span>
+                                    <span class="feature-tag">Tech</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row g-2" style="margin-top: 1rem;">
+                    <div class="col-lg-3 col-md-4 col-sm-6">
+                        <div class="category-card">
+                            <div class="category-icon">
+                                <i class="bi bi-search"></i>
+                            </div>
+                            <div class="category-info">
+                                <h4>Mystery & Thriller</h4>
+                                <p class="category-count">700+ Books</p>
+                                <p class="category-description">Suspenseful detective stories.</p>
+                                <div class="category-features">
+                                    <span class="feature-tag">Mystery</span>
+                                    <span class="feature-tag">Thriller</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-6">
+                        <div class="category-card">
+                            <div class="category-icon">
+                                <i class="bi bi-lightbulb"></i>
+                            </div>
+                            <div class="category-info">
+                                <h4>Self-Help</h4>
+                                <p class="category-count">400+ Books</p>
+                                <p class="category-description">Personal growth and motivation.</p>
+                                <div class="category-features">
+                                    <span class="feature-tag">Growth</span>
+                                    <span class="feature-tag">Success</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-6">
+                        <div class="category-card">
+                            <div class="category-icon">
+                                <i class="bi bi-globe"></i>
+                            </div>
+                            <div class="category-info">
+                                <h4>Travel & Adventure</h4>
+                                <p class="category-count">300+ Books</p>
+                                <p class="category-description">Travel guides and adventures.</p>
+                                <div class="category-features">
+                                    <span class="feature-tag">Travel</span>
+                                    <span class="feature-tag">Adventure</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-6">
+                        <div class="category-card">
+                            <div class="category-icon">
+                                <i class="bi bi-cup-hot"></i>
+                            </div>
+                            <div class="category-info">
+                                <h4>Biography & History</h4>
+                                <p class="category-count">500+ Books</p>
+                                <p class="category-description">Real stories and history.</p>
+                                <div class="category-features">
+                                    <span class="feature-tag">Biography</span>
+                                    <span class="feature-tag">History</span>
                                 </div>
                             </div>
                         </div>
@@ -636,15 +818,79 @@
 
         <!-- Contact Section -->
         <section id="contact" class="section contact-section">
-            <div class="container">
-                <h2 class="section-title">Contact Us</h2>
-                <p class="section-subtitle">
-                    Have questions? We'd love to hear from you. Send us a message and we'll respond as soon as possible.
-                </p>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <h2 class="section-title">Contact Us</h2>
+                        <p class="section-subtitle">
+                            Have questions? We'd love to hear from you. Send us a message and we'll respond as soon as possible.
+                        </p>
+                    </div>
+                </div>
                 
                 <div class="row justify-content-center">
-                    <div class="col-lg-8">
+                    <!-- Bookshop Details - Left Side -->
+                    <div class="col-lg-5 col-xl-4">
+                        <div class="bookshop-details">
+                            <h3 style="color: #2c3e50; font-weight: 700; margin-bottom: 1rem; text-align: center; font-size: 1.3rem;">
+                                <i class="bi bi-shop me-2" style="color: #5bb450;"></i>Pahana Edu BookShop
+                            </h3>
+                            
+                            <div class="contact-info">
+                                <div class="contact-item-simple">
+                                    <div class="contact-icon">
+                                        <i class="bi bi-geo-alt-fill"></i>
+                                    </div>
+                                    <div class="contact-text">
+                                        <h5>Address</h5>
+                                        <p>Sri Lanka, Colombo</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="contact-item-simple">
+                                    <div class="contact-icon">
+                                        <i class="bi bi-telephone-fill"></i>
+                                    </div>
+                                    <div class="contact-text">
+                                        <h5>Phone Numbers</h5>
+                                        <p>+94 11 234 5678</p>
+                                        <p>+94 77 123 4567</p>
+                                        <p>+94 76 987 6543</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="contact-item-simple">
+                                    <div class="contact-icon">
+                                        <i class="bi bi-envelope-fill"></i>
+                                    </div>
+                                    <div class="contact-text">
+                                        <h5>Email</h5>
+                                        <p>info@pahanaedubookshop.com</p>
+                                        <p>support@pahanaedubookshop.com</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="contact-item-simple">
+                                    <div class="contact-icon">
+                                        <i class="bi bi-clock-fill"></i>
+                                    </div>
+                                    <div class="contact-text">
+                                        <h5>Business Hours</h5>
+                                        <p>Monday - Friday: 9:00 AM - 8:00 PM</p>
+                                        <p>Saturday: 9:00 AM - 6:00 PM</p>
+                                        <p>Sunday: 10:00 AM - 4:00 PM</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Contact Form - Right Side -->
+                    <div class="col-lg-5 col-xl-6">
                         <div class="contact-form">
+                            <h3 style="color: #2c3e50; font-weight: 700; margin-bottom: 1rem; text-align: center; font-size: 1.3rem;">
+                                <i class="bi bi-chat-dots me-2" style="color: #5bb450;"></i>Send us a Message
+                            </h3>
                             <form>
                                 <div class="row g-3">
                                     <div class="col-md-6">
@@ -657,7 +903,7 @@
                                         <input type="text" class="form-control" placeholder="Subject" required>
                                     </div>
                                     <div class="col-12">
-                                        <textarea class="form-control" rows="5" placeholder="Your Message" required></textarea>
+                                        <textarea class="form-control" rows="3" placeholder="Your Message" required></textarea>
                                     </div>
                                     <div class="col-12 text-center">
                                         <button type="submit" class="btn btn-submit">
