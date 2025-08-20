@@ -18,7 +18,7 @@ import jakarta.servlet.http.HttpSession;
 
 /**
  *
- * @author pruso
+ * @author nizmi
  */
 public class LoginServlet extends HttpServlet {
 
@@ -137,15 +137,15 @@ public class LoginServlet extends HttpServlet {
                     
                     eventManager.logEvent("User logged in successfully: " + username + " (Role: " + roleName + ")", "INFO");
                     
-                    // Redirect based on role
+                    // Redirect based on role with success message
                     if ("ADMIN".equals(roleName)) {
-                        response.sendRedirect("DashboardServlet");
+                        response.sendRedirect("DashboardServlet?message=Login successful! Welcome " + username);
                     } else if ("MANAGER".equals(roleName)) {
-                        response.sendRedirect("stock_analysis.jsp");
+                        response.sendRedirect("stock_analysis.jsp?message=Login successful! Welcome " + username);
                     } else if ("CASHIER".equals(roleName)) {
-                        response.sendRedirect("pos.jsp");
+                        response.sendRedirect("pos.jsp?message=Login successful! Welcome " + username);
                     } else {
-                        response.sendRedirect("DashboardServlet");
+                        response.sendRedirect("DashboardServlet?message=Login successful! Welcome " + username);
                     }
                     return;
                 } else {
@@ -178,7 +178,7 @@ public class LoginServlet extends HttpServlet {
                     session.setAttribute("customerName", customer.getName());
                     
                     eventManager.logEvent("Customer logged in successfully: " + username + " (Role: " + roleName + ")", "INFO");
-                    response.sendRedirect("transaction.jsp");
+                    response.sendRedirect("transaction.jsp?message=Login successful! Welcome " + username);
                     return;
                 } else {
                     // Customer exists but has invalid role for customers table

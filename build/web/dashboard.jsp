@@ -857,6 +857,20 @@
                     </div>
                 </div>
 
+                <!-- Message Display -->
+                <% if (request.getParameter("message") != null) { %>
+                <div class="alert alert-success" id="successMessage" style="margin: 20px; padding: 15px; background-color: #d4edda; border: 1px solid #c3e6cb; border-radius: 5px; color: #155724;">
+                    <i class="bi bi-check-circle me-2"></i><%= request.getParameter("message") %>
+                    <button type="button" class="btn-close" onclick="closeMessage('successMessage')" style="float: right; background: none; border: none; font-size: 1.2rem; cursor: pointer;">&times;</button>
+                </div>
+                <% } %>
+                <% if (request.getParameter("error") != null) { %>
+                <div class="alert alert-danger" id="errorMessage" style="margin: 20px; padding: 15px; background-color: #f8d7da; border: 1px solid #f5c6cb; border-radius: 5px; color: #721c24;">
+                    <i class="bi bi-exclamation-triangle me-2"></i><%= request.getParameter("error") %>
+                    <button type="button" class="btn-close" onclick="closeMessage('errorMessage')" style="float: right; background: none; border: none; font-size: 1.2rem; cursor: pointer;">&times;</button>
+                </div>
+                <% } %>
+
                 <!-- Stats Cards -->
                 <div class="stats-grid">
                     <%
@@ -1135,6 +1149,24 @@
                 
                 // Refresh chart every 5 minutes for real-time updates
                 setInterval(loadSalesChart, 300000);
+            });
+
+            // Function to close message alerts
+            function closeMessage(messageId) {
+                const messageElement = document.getElementById(messageId);
+                if (messageElement) {
+                    messageElement.style.display = 'none';
+                }
+            }
+
+            // Auto-hide success messages after 5 seconds
+            document.addEventListener('DOMContentLoaded', function() {
+                const successMessage = document.getElementById('successMessage');
+                if (successMessage) {
+                    setTimeout(function() {
+                        successMessage.style.display = 'none';
+                    }, 5000);
+                }
             });
         </script>
     </body>
