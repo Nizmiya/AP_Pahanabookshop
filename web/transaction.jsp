@@ -741,7 +741,7 @@
                             <% } %>
                         </span>
                         <div>
-                            <a href="TransactionServlet?action=list" class="btn btn-secondary">
+                            <a href="TransactionServlet?action=list" class="btn btn-info">
                                 <i class="bi bi-arrow-clockwise" style="color: white;"></i>Refresh
                             </a>
                             <% if (!"CUSTOMER".equals(role)) { %>

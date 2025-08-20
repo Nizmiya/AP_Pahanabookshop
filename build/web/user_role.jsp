@@ -700,47 +700,55 @@
                 <% } %>
 
                 <!-- Add User Role Form -->
-                <div class="content-card" style="background: linear-gradient(135deg, #adb5bd 0%, #6c757d 100%); border: none; color: white;">
-                    <div class="card-title" style="color: white; text-align: center; margin-bottom: 2rem;">
-                        <span><i class="bi bi-shield-plus-fill me-2" style="color: white;"></i>Create New User Role</span>
+                <div class="content-card" style="background: white; border: none; color: #2c3e50;">
+                    <div class="card-title" style="color: #2c3e50; text-align: center; margin-bottom: 2rem;">
+                        <span><i class="bi bi-shield-plus-fill me-2" style="color: #3b8132;"></i>Create New User Role</span>
                     </div>
                     
-                    <form action="UserRoleServlet" method="post" style="max-width: 600px; margin: 0 auto;">
+                    <form action="UserRoleServlet" method="post" style="max-width: 900px; margin: 0 auto;">
                         <input type="hidden" name="action" value="create">
                         
-                        <div class="form-section" style="background: rgba(255,255,255,0.1); border-radius: 15px; padding: 2rem; margin-bottom: 1.5rem; backdrop-filter: blur(10px);">
-                            <h5 style="color: white; margin-bottom: 1.5rem; text-align: center; font-weight: 600;">
-                                <i class="bi bi-shield-lock me-2"></i>Role Information
-                            </h5>
-                            
-                            <div class="form-group" style="margin-bottom: 1.5rem;">
-                                <label for="role_name" style="color: white; font-weight: 500; margin-bottom: 0.75rem; display: block;">Role Name</label>
-                                <input type="text" class="form-control" id="role_name" name="role_name" 
-                                       placeholder="Enter role name (e.g., EDITOR, MODERATOR)" required
-                                       style="background: rgba(255,255,255,0.9); border: none; border-radius: 10px; padding: 0.75rem; font-size: 1rem;">
-                                <small style="color: rgba(255,255,255,0.8); font-size: 0.85rem; margin-top: 0.5rem; display: block;">
-                                    <i class="bi bi-info-circle me-1"></i>
-                                    Use uppercase letters for role names (e.g., EDITOR, MODERATOR, ANALYST)
-                                </small>
+                        <div class="row">
+                            <!-- Role Information Section - Left Side -->
+                            <div class="col-md-6">
+                                <div class="form-section" style="background: rgba(91, 180, 80, 0.1); border-radius: 15px; padding: 1.5rem; margin-bottom: 1.5rem; backdrop-filter: blur(10px); border: 1px solid rgba(91, 180, 80, 0.2);">
+                                    <h5 style="color: #2c3e50; margin-bottom: 1rem; text-align: center; font-weight: 600;">
+                                        <i class="bi bi-shield-lock me-2" style="color: #3b8132;"></i>Role Information
+                                    </h5>
+                                    
+                                    <div class="form-group" style="margin-bottom: 1rem;">
+                                        <label for="role_name" style="color: #2c3e50; font-weight: 500; margin-bottom: 0.5rem; display: block;">Role Name</label>
+                                        <input type="text" class="form-control" id="role_name" name="role_name" 
+                                               placeholder="Enter role name (e.g., EDITOR, MODERATOR)" required
+                                               style="background: rgba(255,255,255,0.9); border: 1px solid rgba(91, 180, 80, 0.3); border-radius: 10px; padding: 0.75rem; font-size: 1rem;">
+                                        <small style="color: #6c757d; font-size: 0.85rem; margin-top: 0.5rem; display: block;">
+                                            <i class="bi bi-info-circle me-1" style="color: #3b8132;"></i>
+                                            Use uppercase letters for role names (e.g., EDITOR, MODERATOR, ANALYST)
+                                        </small>
+                                    </div>
+                                </div>
                             </div>
                             
-                            <!-- Role Guidelines -->
-                            <div class="role-guidelines" style="background: rgba(255,255,255,0.1); border-radius: 10px; padding: 1.5rem; margin-top: 1.5rem;">
-                                <h6 style="color: white; font-weight: 600; margin-bottom: 1rem;">
-                                    <i class="bi bi-lightbulb me-2"></i>Role Creation Guidelines
-                                </h6>
-                                <div style="color: rgba(255,255,255,0.9); font-size: 0.9rem;">
-                                    <div style="margin-bottom: 0.75rem;">
-                                        <strong>✓</strong> Use descriptive, clear role names
-                                    </div>
-                                    <div style="margin-bottom: 0.75rem;">
-                                        <strong>✓</strong> Follow naming conventions (UPPERCASE)
-                                    </div>
-                                    <div style="margin-bottom: 0.75rem;">
-                                        <strong>✓</strong> Consider permissions and access levels
-                                    </div>
-                                    <div>
-                                        <strong>✓</strong> Avoid duplicate or conflicting roles
+                            <!-- Role Guidelines Section - Right Side -->
+                            <div class="col-md-6">
+                                <div class="form-section" style="background: rgba(91, 180, 80, 0.1); border-radius: 15px; padding: 1.5rem; margin-bottom: 1.5rem; backdrop-filter: blur(10px); border: 1px solid rgba(91, 180, 80, 0.2);">
+                                    <h5 style="color: #2c3e50; margin-bottom: 1rem; text-align: center; font-weight: 600;">
+                                        <i class="bi bi-lightbulb me-2" style="color: #3b8132;"></i>Role Creation Guidelines
+                                    </h5>
+                                    
+                                    <div style="color: #495057; font-size: 0.9rem;">
+                                        <div style="margin-bottom: 0.75rem; padding: 0.75rem; background: rgba(255,255,255,0.8); border-radius: 8px; border: 1px solid rgba(91, 180, 80, 0.2);">
+                                            <strong style="color: #3b8132;">✓</strong> Use descriptive, clear role names
+                                        </div>
+                                        <div style="margin-bottom: 0.75rem; padding: 0.75rem; background: rgba(255,255,255,0.8); border-radius: 8px; border: 1px solid rgba(91, 180, 80, 0.2);">
+                                            <strong style="color: #3b8132;">✓</strong> Follow naming conventions (UPPERCASE)
+                                        </div>
+                                        <div style="margin-bottom: 0.75rem; padding: 0.75rem; background: rgba(255,255,255,0.8); border-radius: 8px; border: 1px solid rgba(91, 180, 80, 0.2);">
+                                            <strong style="color: #3b8132;">✓</strong> Consider permissions and access levels
+                                        </div>
+                                        <div style="margin-bottom: 0; padding: 0.75rem; background: rgba(255,255,255,0.8); border-radius: 8px; border: 1px solid rgba(91, 180, 80, 0.2);">
+                                            <strong style="color: #3b8132;">✓</strong> Avoid duplicate or conflicting roles
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -748,7 +756,7 @@
                         
                         <div style="text-align: center;">
                             <button type="submit" class="btn" 
-                                    style="background: linear-gradient(135deg, #28a745, #20c997); border: none; color: white; padding: 1rem 2rem; border-radius: 25px; font-weight: 600; font-size: 1.1rem; box-shadow: 0 4px 15px rgba(40,167,69,0.3);">
+                                    style="background: linear-gradient(135deg, #3b8132, #5bb450); border: none; color: white; padding: 1rem 2rem; border-radius: 25px; font-weight: 600; font-size: 1.1rem; box-shadow: 0 4px 15px rgba(59, 129, 50, 0.3);">
                                 <i class="bi bi-shield-plus-fill me-2" style="color: white;"></i>Create User Role
                             </button>
                         </div>

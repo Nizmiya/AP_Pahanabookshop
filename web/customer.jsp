@@ -963,76 +963,76 @@
                 </div>
                 <% } %>
 
-                <!-- Add Customer Form - New Style -->
+                <!-- Add Customer Form - Compact Style -->
                 <div class="content-card" style="background: white; border: 1px solid #e9ecef; color: #2c3e50;">
-                    <h3 class="card-title" style="color: #2c3e50; text-align: center; margin-bottom: 2rem;">
+                    <h3 class="card-title" style="color: #2c3e50; text-align: center; margin-bottom: 1rem;">
                         <span><i class="bi bi-person-plus-fill me-2" style="color: #46923c;"></i>Register New Customer</span>
                     </h3>
                     
-                    <form action="CustomerServlet" method="post" style="max-width: 900px; margin: 0 auto;">
+                    <form action="CustomerServlet" method="post" style="max-width: 800px; margin: 0 auto;">
                         <input type="hidden" name="action" value="create">
                         <input type="hidden" name="email" id="hiddenEmail">
                         
                         <div class="row">
                             <!-- Personal Information Section - Left Side -->
                             <div class="col-md-6">
-                                <div class="form-section" style="background: rgba(91, 180, 80, 0.1); border-radius: 15px; padding: 1.5rem; margin-bottom: 1.5rem; border: 1px solid rgba(91, 180, 80, 0.2);">
-                                    <h5 style="color: #2c3e50; margin-bottom: 1rem; text-align: center; font-weight: 600;">
+                                <div class="form-section" style="background: rgba(91, 180, 80, 0.1); border-radius: 12px; padding: 1rem; margin-bottom: 1rem; border: 1px solid rgba(91, 180, 80, 0.2);">
+                                    <h5 style="color: #2c3e50; margin-bottom: 0.75rem; text-align: center; font-weight: 600; font-size: 1rem;">
                                         <i class="bi bi-person-badge me-2" style="color: #46923c;"></i>Personal Information
                                     </h5>
                                     
-                                    <div class="form-group" style="margin-bottom: 1rem;">
-                                        <label for="name" style="color: #2c3e50; font-weight: 500; margin-bottom: 0.5rem;">Full Name</label>
+                                    <div class="form-group" style="margin-bottom: 0.75rem;">
+                                        <label for="name" style="color: #2c3e50; font-weight: 500; margin-bottom: 0.25rem; font-size: 0.9rem;">Full Name</label>
                                         <input type="text" class="form-control" id="name" name="name" required 
-                                               style="background: white; border: 1px solid #e9ecef; border-radius: 10px; padding: 0.75rem;">
+                                               style="background: white; border: 1px solid #e9ecef; border-radius: 8px; padding: 0.5rem;">
                                     </div>
                                     
-                                    <div class="form-group" style="margin-bottom: 1rem;">
-                                        <label for="phone" style="color: #2c3e50; font-weight: 500; margin-bottom: 0.5rem;">Phone Number</label>
+                                    <div class="form-group" style="margin-bottom: 0.75rem;">
+                                        <label for="phone" style="color: #2c3e50; font-weight: 500; margin-bottom: 0.25rem; font-size: 0.9rem;">Phone Number</label>
                                         <input type="tel" class="form-control" id="phone" name="phone" required 
-                                               style="background: white; border: 1px solid #e9ecef; border-radius: 10px; padding: 0.75rem;">
+                                               style="background: white; border: 1px solid #e9ecef; border-radius: 8px; padding: 0.5rem;">
                                     </div>
                                     
                                     <div class="form-group">
-                                        <label for="address" style="color: #2c3e50; font-weight: 500; margin-bottom: 0.5rem;">Address</label>
-                                        <textarea class="form-control" id="address" name="address" rows="2" required 
-                                                  style="background: white; border: 1px solid #e9ecef; border-radius: 10px; padding: 0.75rem; resize: none;"></textarea>
+                                        <label for="address" style="color: #2c3e50; font-weight: 500; margin-bottom: 0.25rem; font-size: 0.9rem;">Address</label>
+                                        <textarea class="form-control" id="address" name="address" rows="1" required 
+                                                  style="background: white; border: 1px solid #e9ecef; border-radius: 8px; padding: 0.5rem; resize: none;"></textarea>
                                     </div>
                                 </div>
                             </div>
                             
                             <!-- Account Information Section - Right Side -->
                             <div class="col-md-6">
-                                <div class="form-section" style="background: rgba(91, 180, 80, 0.1); border-radius: 15px; padding: 1.5rem; margin-bottom: 1.5rem; border: 1px solid rgba(91, 180, 80, 0.2);">
-                                    <h5 style="color: #2c3e50; margin-bottom: 1rem; text-align: center; font-weight: 600;">
+                                <div class="form-section" style="background: rgba(91, 180, 80, 0.1); border-radius: 12px; padding: 1rem; margin-bottom: 1rem; border: 1px solid rgba(91, 180, 80, 0.2);">
+                                    <h5 style="color: #2c3e50; margin-bottom: 0.75rem; text-align: center; font-weight: 600; font-size: 1rem;">
                                         <i class="bi bi-shield-lock me-2" style="color: #46923c;"></i>Account Details
                                     </h5>
                                     
-                                    <div class="form-group" style="margin-bottom: 1rem;">
-                                        <label for="username" style="color: #2c3e50; font-weight: 500; margin-bottom: 0.5rem;">Username</label>
+                                    <div class="form-group" style="margin-bottom: 0.75rem;">
+                                        <label for="username" style="color: #2c3e50; font-weight: 500; margin-bottom: 0.25rem; font-size: 0.9rem;">Username</label>
                                         <input type="text" class="form-control" id="username" name="username" required 
-                                               style="background: white; border: 1px solid #e9ecef; border-radius: 10px; padding: 0.75rem;">
+                                               style="background: white; border: 1px solid #e9ecef; border-radius: 8px; padding: 0.5rem;">
                                     </div>
                                     
-                                    <div class="form-group" style="margin-bottom: 1rem;">
-                                        <label for="email" style="color: #2c3e50; font-weight: 500; margin-bottom: 0.5rem;">Email Address</label>
+                                    <div class="form-group" style="margin-bottom: 0.75rem;">
+                                        <label for="email" style="color: #2c3e50; font-weight: 500; margin-bottom: 0.25rem; font-size: 0.9rem;">Email Address</label>
                                         <div class="input-group">
                                             <input type="email" class="form-control" id="email" name="email" required 
-                                                   style="background: white; border: 1px solid #e9ecef; border-radius: 10px 0 0 10px; padding: 0.75rem;">
+                                                   style="background: white; border: 1px solid #e9ecef; border-radius: 8px 0 0 8px; padding: 0.5rem;">
                                             <button class="btn" type="button" id="sendVerificationBtn" onclick="sendVerificationCode()"
-                                                    style="background: #28a745; border: none; border-radius: 0 10px 10px 0; color: white; padding: 0.75rem 1rem;">
+                                                    style="background: #28a745; border: none; border-radius: 0 8px 8px 0; color: white; padding: 0.5rem 0.75rem;">
                                                 <i class="bi bi-envelope"></i>
                                             </button>
                                         </div>
                                     </div>
                                     
                                     <div class="form-group">
-                                        <label for="password" style="color: #2c3e50; font-weight: 500; margin-bottom: 0.5rem;">Password</label>
+                                        <label for="password" style="color: #2c3e50; font-weight: 500; margin-bottom: 0.25rem; font-size: 0.9rem;">Password</label>
                                         <div class="input-group">
                                             <input type="password" class="form-control" id="password" name="password" required 
-                                                   style="background: white; border: 1px solid #e9ecef; border-radius: 10px 0 0 10px; padding: 0.75rem;">
+                                                   style="background: white; border: 1px solid #e9ecef; border-radius: 8px 0 0 8px; padding: 0.5rem;">
                                             <button class="btn" type="button" onclick="togglePassword('password')"
-                                                    style="background: #6c757d; border: none; border-radius: 0 10px 10px 0; color: white; padding: 0.75rem 1rem;">
+                                                    style="background: #6c757d; border: none; border-radius: 0 8px 8px 0; color: white; padding: 0.5rem 0.75rem;">
                                                 <i class="bi bi-eye" id="passwordIcon"></i>
                                             </button>
                                         </div>
@@ -1042,25 +1042,25 @@
                         </div>
                         
                         <!-- Email Verification Section -->
-                        <div class="form-section" id="verificationRow" style="display: none; background: rgba(91, 180, 80, 0.1); border-radius: 15px; padding: 1.5rem; margin-bottom: 1.5rem; border: 1px solid rgba(91, 180, 80, 0.2);">
-                            <h5 style="color: #2c3e50; margin-bottom: 1rem; text-align: center; font-weight: 600;">
+                        <div class="form-section" id="verificationRow" style="display: none; background: rgba(91, 180, 80, 0.1); border-radius: 12px; padding: 1rem; margin-bottom: 1rem; border: 1px solid rgba(91, 180, 80, 0.2);">
+                            <h5 style="color: #2c3e50; margin-bottom: 0.75rem; text-align: center; font-weight: 600; font-size: 1rem;">
                                 <i class="bi bi-patch-check me-2" style="color: #46923c;"></i>Email Verification
                             </h5>
                             
-                            <div class="form-group" style="margin-bottom: 1rem;">
-                                <label for="verificationPin" style="color: #2c3e50; font-weight: 500; margin-bottom: 0.5rem;">Verification Code</label>
+                            <div class="form-group" style="margin-bottom: 0.75rem;">
+                                <label for="verificationPin" style="color: #2c3e50; font-weight: 500; margin-bottom: 0.25rem; font-size: 0.9rem;">Verification Code</label>
                                 <div class="input-group">
                                     <input type="text" class="form-control" id="verificationPin" name="verificationPin" placeholder="Enter 6-digit code" maxlength="6"
-                                           style="background: white; border: 1px solid #e9ecef; border-radius: 10px 0 0 10px; padding: 0.75rem;">
+                                           style="background: white; border: 1px solid #e9ecef; border-radius: 8px 0 0 8px; padding: 0.5rem;">
                                     <button class="btn" type="button" id="verifyEmailBtn" onclick="verifyEmail()"
-                                            style="background: #17a2b8; border: none; border-radius: 0 10px 10px 0; color: white; padding: 0.75rem 1rem;">
+                                            style="background: #17a2b8; border: none; border-radius: 0 8px 8px 0; color: white; padding: 0.5rem 0.75rem;">
                                         <i class="bi bi-check-circle"></i>
                                     </button>
                                 </div>
-                                <small style="color: #6c757d; font-size: 0.8rem;">Enter the 6-digit verification code sent to your email</small>
+                                <small style="color: #6c757d; font-size: 0.75rem;">Enter the 6-digit verification code sent to your email</small>
                             </div>
                             
-                            <div class="alert" id="verificationStatus" style="display: none; background: white; border: 1px solid #e9ecef; color: #2c3e50; border-radius: 10px;">
+                            <div class="alert" id="verificationStatus" style="display: none; background: white; border: 1px solid #e9ecef; color: #2c3e50; border-radius: 8px;">
                                 <i class="bi bi-info-circle me-2" style="color: #46923c;"></i>
                                 <span id="verificationMessage"></span>
                             </div>

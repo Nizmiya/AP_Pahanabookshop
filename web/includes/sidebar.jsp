@@ -10,7 +10,7 @@
 <div class="sidebar" id="sidebar">
     <div class="sidebar-header">
         <div class="logo">
-            <i class="bi bi-book"></i> BookShop
+            <i class="bi bi-book"></i> Pahana Edu BookShop
         </div>
     </div>
 
