@@ -141,7 +141,7 @@ public class LoginServlet extends HttpServlet {
                     if ("ADMIN".equals(roleName)) {
                         response.sendRedirect("DashboardServlet");
                     } else if ("MANAGER".equals(roleName)) {
-                        response.sendRedirect("pos.jsp");
+                        response.sendRedirect("stock_analysis.jsp");
                     } else if ("CASHIER".equals(roleName)) {
                         response.sendRedirect("pos.jsp");
                     } else {

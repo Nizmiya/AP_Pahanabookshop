@@ -83,6 +83,16 @@
         </div>
         <% } %>
         
+        <!-- Stock Analysis - Only for MANAGER -->
+        <% if ("MANAGER".equals(role)) { %>
+        <div class="nav-item">
+            <a href="stock_analysis.jsp" class="nav-link <%= "stockanalysis".equals(currentPage) ? "active" : "" %>">
+                <i class="bi bi-graph-up"></i>
+                Stock Analysis
+            </a>
+        </div>
+        <% } %>
+        
         <!-- Users - For ADMIN, MANAGER, CASHIER -->
         <% if ("ADMIN".equals(role) || "MANAGER".equals(role) || "CASHIER".equals(role)) { %>
         <div class="nav-item">
