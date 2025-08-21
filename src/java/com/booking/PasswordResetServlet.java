@@ -80,8 +80,9 @@ public class PasswordResetServlet extends HttpServlet {
                 return;
             }
             
-            // Check if email exists in users table
-            if (!emailExists(email.trim())) {
+            // Check if email exists in users table or customers table
+            String accountType = checkEmailExists(email.trim());
+            if (accountType == null) {
                 response.setContentType("application/json");
                 response.setCharacterEncoding("UTF-8");
                 response.getWriter().write("{\"success\": false, \"message\": \"Email not found in our system.\"}");
@@ -99,11 +100,12 @@ public class PasswordResetServlet extends HttpServlet {
             // Generate reset code
             String resetCode = emailService.generateVerificationCode();
             
-            // Store the code
-            resetCodes.put(email.trim(), resetCode);
+            // Store the code with account type info
+            String emailKey = email.trim() + "|" + accountType;
+            resetCodes.put(emailKey, resetCode);
             
             // Debug logging
-            System.out.println("✓ Reset code generated for " + email.trim() + ": " + resetCode);
+            System.out.println("✓ Reset code generated for " + email.trim() + " (" + accountType + "): " + resetCode);
             System.out.println("✓ Total codes in memory: " + resetCodes.size());
             
             // Send reset email
@@ -145,10 +147,26 @@ public class PasswordResetServlet extends HttpServlet {
                 return;
             }
             
-            String storedCode = resetCodes.get(email.trim());
+            // Find the stored code by checking both user and customer keys
+            String storedCode = null;
+            String accountType = null;
+            
+            // Check for user account
+            String userKey = email.trim() + "|USER";
+            storedCode = resetCodes.get(userKey);
+            if (storedCode != null) {
+                accountType = "USER";
+            } else {
+                // Check for customer account
+                String customerKey = email.trim() + "|CUSTOMER";
+                storedCode = resetCodes.get(customerKey);
+                if (storedCode != null) {
+                    accountType = "CUSTOMER";
+                }
+            }
             
             // Debug logging
-            System.out.println("🔍 Verifying code for " + email.trim());
+            System.out.println("🔍 Verifying code for " + email.trim() + " (" + (accountType != null ? accountType : "UNKNOWN") + ")");
             System.out.println("🔍 Entered code: " + resetCode.trim());
             System.out.println("🔍 Stored code: " + (storedCode != null ? storedCode : "NULL"));
             System.out.println("🔍 Total codes in memory: " + resetCodes.size());
@@ -192,8 +210,28 @@ public class PasswordResetServlet extends HttpServlet {
                 return;
             }
             
+            // Find the stored code and account type
+            String storedCode = null;
+            String accountType = null;
+            String emailKey = null;
+            
+            // Check for user account
+            String userKey = email.trim() + "|USER";
+            storedCode = resetCodes.get(userKey);
+            if (storedCode != null) {
+                accountType = "USER";
+                emailKey = userKey;
+            } else {
+                // Check for customer account
+                String customerKey = email.trim() + "|CUSTOMER";
+                storedCode = resetCodes.get(customerKey);
+                if (storedCode != null) {
+                    accountType = "CUSTOMER";
+                    emailKey = customerKey;
+                }
+            }
+            
             // Verify reset code
-            String storedCode = resetCodes.get(email.trim());
             if (storedCode == null || !storedCode.equals(resetCode.trim())) {
                 response.setContentType("application/json");
                 response.setCharacterEncoding("UTF-8");
@@ -201,15 +239,15 @@ public class PasswordResetServlet extends HttpServlet {
                 return;
             }
             
-            // Update password in database
-            boolean passwordUpdated = updatePassword(email.trim(), newPassword.trim());
+            // Update password in database based on account type
+            boolean passwordUpdated = updatePasswordByType(email.trim(), newPassword.trim(), accountType);
             
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
             
             if (passwordUpdated) {
                 // Remove the used code
-                resetCodes.remove(email.trim());
+                resetCodes.remove(emailKey);
                 response.getWriter().write("{\"success\": true, \"message\": \"Password reset successfully. You can now login with your new password.\"}");
             } else {
                 response.getWriter().write("{\"success\": false, \"message\": \"Failed to reset password. Please try again.\"}");
@@ -223,32 +261,59 @@ public class PasswordResetServlet extends HttpServlet {
     }
     
     /**
-     * Check if email exists in users table
+     * Check if email exists in users table or customers table
+     * Returns "USER" if found in users table, "CUSTOMER" if found in customers table, null if not found
      */
-    private boolean emailExists(String email) {
-        String sql = "SELECT COUNT(*) FROM users WHERE email = ?";
-        
+    private String checkEmailExists(String email) {
+        // Check users table first
+        String userSql = "SELECT COUNT(*) FROM users WHERE email = ?";
         try (Connection conn = SingletonDP.getInstance().getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+             PreparedStatement pstmt = conn.prepareStatement(userSql)) {
             
             pstmt.setString(1, email);
             
             try (ResultSet rs = pstmt.executeQuery()) {
-                if (rs.next()) {
-                    return rs.getInt(1) > 0;
+                if (rs.next() && rs.getInt(1) > 0) {
+                    return "USER";
                 }
             }
         } catch (SQLException e) {
-            System.err.println("Error checking email existence: " + e.getMessage());
+            System.err.println("Error checking email in users table: " + e.getMessage());
         }
-        return false;
+        
+        // Check customers table
+        String customerSql = "SELECT COUNT(*) FROM customers WHERE email = ?";
+        try (Connection conn = SingletonDP.getInstance().getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(customerSql)) {
+            
+            pstmt.setString(1, email);
+            
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next() && rs.getInt(1) > 0) {
+                    return "CUSTOMER";
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error checking email in customers table: " + e.getMessage());
+        }
+        
+        return null; // Email not found in either table
     }
     
     /**
-     * Update password in database
+     * Update password in database based on account type
      */
-    private boolean updatePassword(String email, String newPassword) {
-        String sql = "UPDATE users SET password = ? WHERE email = ?";
+    private boolean updatePasswordByType(String email, String newPassword, String accountType) {
+        String sql;
+        
+        if ("USER".equals(accountType)) {
+            sql = "UPDATE users SET password = ? WHERE email = ?";
+        } else if ("CUSTOMER".equals(accountType)) {
+            sql = "UPDATE customers SET password = ? WHERE email = ?";
+        } else {
+            System.err.println("Invalid account type: " + accountType);
+            return false;
+        }
         
         try (Connection conn = SingletonDP.getInstance().getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -256,9 +321,11 @@ public class PasswordResetServlet extends HttpServlet {
             pstmt.setString(1, newPassword);
             pstmt.setString(2, email);
             
-            return pstmt.executeUpdate() > 0;
+            int result = pstmt.executeUpdate();
+            System.out.println("✓ Password updated for " + email + " (" + accountType + "): " + (result > 0 ? "SUCCESS" : "FAILED"));
+            return result > 0;
         } catch (SQLException e) {
-            System.err.println("Error updating password: " + e.getMessage());
+            System.err.println("Error updating password for " + accountType + ": " + e.getMessage());
         }
         return false;
     }
