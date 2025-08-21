@@ -402,6 +402,11 @@
                 box-shadow: 0 6px 20px rgba(70, 146, 60, 0.4);
                 text-decoration: none;
             }
+            
+            /* Ensure icons in primary buttons are white */
+            .btn-primary i {
+                color: var(--white) !important;
+            }
 
             .btn-warning {
                 background: linear-gradient(135deg, var(--warning-color), #fd7e14);
@@ -740,10 +745,21 @@
                         List<HelpSection> helpSections = (List<HelpSection>) request.getAttribute("helpSections");
                         if (helpSections == null) {
                             try {
-                                // Load help sections directly using HelpServlet
+                                // Load help sections based on user role
                                 com.booking.HelpServlet helpServlet = new com.booking.HelpServlet();
-                                helpSections = helpServlet.getAllHelpSections();
-                                System.out.println("Loaded " + (helpSections != null ? helpSections.size() : 0) + " help sections");
+                                if ("ADMIN".equals(role)) {
+                                    // Admin can see all help sections
+                                    helpSections = helpServlet.getAllHelpSections();
+                                } else {
+                                    // Get role_id for the current user's role
+                                    int roleId = helpServlet.getRoleIdByName(role);
+                                    if (roleId > 0) {
+                                        helpSections = helpServlet.getHelpSectionsByRole(roleId);
+                                    } else {
+                                        helpSections = new ArrayList<>();
+                                    }
+                                }
+                                System.out.println("Loaded " + (helpSections != null ? helpSections.size() : 0) + " help sections for role: " + role);
                             } catch (Exception e) {
                                 System.err.println("Error loading help sections: " + e.getMessage());
                                 e.printStackTrace();
@@ -763,7 +779,23 @@
                             <div class="col-md-6 col-lg-4 mb-3">
                                 <div class="card h-100">
                                     <div class="card-body">
-                                        <h5 class="card-title"><%= section.getTitle() %></h5>
+                                        <div class="d-flex justify-content-between align-items-start mb-2">
+                                            <h5 class="card-title mb-0"><%= section.getTitle() %></h5>
+                                            <%
+                                                // Get role name for display
+                                                String roleName = "";
+                                                try {
+                                                    com.booking.UserRoleServlet userRoleServlet = new com.booking.UserRoleServlet();
+                                                    com.booking.UserServlet.UserRole userRole = userRoleServlet.getUserRoleById(section.getRoleId());
+                                                    if (userRole != null) {
+                                                        roleName = userRole.getRoleName();
+                                                    }
+                                                } catch (Exception e) {
+                                                    roleName = "Unknown";
+                                                }
+                                            %>
+                                            <span class="badge bg-secondary"><%= roleName %></span>
+                                        </div>
                                         <p class="card-text">
                                             <%= section.getContent().length() > 100 ? 
                                                 section.getContent().substring(0, 100) + "..." : 

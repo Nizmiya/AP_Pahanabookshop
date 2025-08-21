@@ -21,13 +21,15 @@ public class HelpServlet extends HttpServlet {
         private int helpId;
         private String title;
         private String content;
+        private int roleId;
         
         public HelpSection() {}
         
-        public HelpSection(int helpId, String title, String content) {
+        public HelpSection(int helpId, String title, String content, int roleId) {
             this.helpId = helpId;
             this.title = title;
             this.content = content;
+            this.roleId = roleId;
         }
         
         // Getters and Setters
@@ -55,21 +57,30 @@ public class HelpServlet extends HttpServlet {
             this.content = content;
         }
         
+        public int getRoleId() {
+            return roleId;
+        }
+        
+        public void setRoleId(int roleId) {
+            this.roleId = roleId;
+        }
+        
         @Override
         public String toString() {
-            return "HelpSection{" + "helpId=" + helpId + ", title=" + title + '}';
+            return "HelpSection{" + "helpId=" + helpId + ", title=" + title + ", roleId=" + roleId + '}';
         }
     }
 
     // HelpSection DAO Methods
     public boolean createHelpSection(HelpSection helpSection) {
-        String sql = "INSERT INTO help_sections (title, content) VALUES (?, ?)";
+        String sql = "INSERT INTO help_sections (title, content, role_id) VALUES (?, ?, ?)";
         
         try (Connection conn = SingletonDP.getInstance().getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             
             pstmt.setString(1, helpSection.getTitle());
             pstmt.setString(2, helpSection.getContent());
+            pstmt.setInt(3, helpSection.getRoleId());
             
             return pstmt.executeUpdate() > 0;
         } catch (SQLException e) {
@@ -91,6 +102,7 @@ public class HelpServlet extends HttpServlet {
                 helpSection.setHelpId(rs.getInt("help_id"));
                 helpSection.setTitle(rs.getString("title"));
                 helpSection.setContent(rs.getString("content"));
+                helpSection.setRoleId(rs.getInt("role_id"));
                 
                 helpSections.add(helpSection);
             }
@@ -114,6 +126,7 @@ public class HelpServlet extends HttpServlet {
                     helpSection.setHelpId(rs.getInt("help_id"));
                     helpSection.setTitle(rs.getString("title"));
                     helpSection.setContent(rs.getString("content"));
+                    helpSection.setRoleId(rs.getInt("role_id"));
                     
                     return helpSection;
                 }
@@ -125,14 +138,15 @@ public class HelpServlet extends HttpServlet {
     }
     
     public boolean updateHelpSection(HelpSection helpSection) {
-        String sql = "UPDATE help_sections SET title = ?, content = ? WHERE help_id = ?";
+        String sql = "UPDATE help_sections SET title = ?, content = ?, role_id = ? WHERE help_id = ?";
         
         try (Connection conn = SingletonDP.getInstance().getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             
             pstmt.setString(1, helpSection.getTitle());
             pstmt.setString(2, helpSection.getContent());
-            pstmt.setInt(3, helpSection.getHelpId());
+            pstmt.setInt(3, helpSection.getRoleId());
+            pstmt.setInt(4, helpSection.getHelpId());
             
             return pstmt.executeUpdate() > 0;
         } catch (SQLException e) {
@@ -155,6 +169,51 @@ public class HelpServlet extends HttpServlet {
             return false;
         }
     }
+    
+    public List<HelpSection> getHelpSectionsByRole(int roleId) {
+        List<HelpSection> helpSections = new ArrayList<>();
+        String sql = "SELECT * FROM help_sections WHERE role_id = ? ORDER BY help_id";
+        
+        try (Connection conn = SingletonDP.getInstance().getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            
+            pstmt.setInt(1, roleId);
+            
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    HelpSection helpSection = new HelpSection();
+                    helpSection.setHelpId(rs.getInt("help_id"));
+                    helpSection.setTitle(rs.getString("title"));
+                    helpSection.setContent(rs.getString("content"));
+                    helpSection.setRoleId(rs.getInt("role_id"));
+                    
+                    helpSections.add(helpSection);
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error getting help sections by role: " + e.getMessage());
+        }
+        return helpSections;
+    }
+    
+    public int getRoleIdByName(String roleName) {
+        String sql = "SELECT role_id FROM user_roles WHERE role_name = ?";
+        
+        try (Connection conn = SingletonDP.getInstance().getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            
+            pstmt.setString(1, roleName);
+            
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("role_id");
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error getting role ID by name: " + e.getMessage());
+        }
+        return -1;
+    }
 
     private boolean hasAccess(String currentUserRole, String action) {
         if ("ADMIN".equals(currentUserRole)) {
@@ -175,15 +234,19 @@ public class HelpServlet extends HttpServlet {
         try {
             String title = request.getParameter("title");
             String content = request.getParameter("content");
+            String roleIdStr = request.getParameter("role_id");
 
-            if (title == null || content == null || title.trim().isEmpty() || content.trim().isEmpty()) {
-                response.sendRedirect("help.jsp?error=Title and content are required.");
+            if (title == null || content == null || roleIdStr == null || 
+                title.trim().isEmpty() || content.trim().isEmpty() || roleIdStr.trim().isEmpty()) {
+                response.sendRedirect("help.jsp?error=Title, content and role are required.");
                 return;
             }
 
+            int roleId = Integer.parseInt(roleIdStr);
             HelpSection helpSection = new HelpSection();
             helpSection.setTitle(title.trim());
             helpSection.setContent(content.trim());
+            helpSection.setRoleId(roleId);
 
             boolean success = createHelpSection(helpSection);
 
@@ -195,6 +258,8 @@ public class HelpServlet extends HttpServlet {
                 response.sendRedirect("help.jsp?error=Failed to create help section.");
             }
 
+        } catch (NumberFormatException e) {
+            response.sendRedirect("help.jsp?error=Invalid role ID.");
         } catch (Exception e) {
             // eventManager.logEvent("Help section creation error: " + e.getMessage(), "ERROR"); // Removed
             response.sendRedirect("help.jsp?error=Error creating help section: " + e.getMessage());
@@ -207,16 +272,20 @@ public class HelpServlet extends HttpServlet {
             int helpId = Integer.parseInt(request.getParameter("help_id"));
             String title = request.getParameter("title");
             String content = request.getParameter("content");
+            String roleIdStr = request.getParameter("role_id");
 
-            if (title == null || content == null || title.trim().isEmpty() || content.trim().isEmpty()) {
-                response.sendRedirect("help.jsp?error=Title and content are required.");
+            if (title == null || content == null || roleIdStr == null || 
+                title.trim().isEmpty() || content.trim().isEmpty() || roleIdStr.trim().isEmpty()) {
+                response.sendRedirect("help.jsp?error=Title, content and role are required.");
                 return;
             }
 
+            int roleId = Integer.parseInt(roleIdStr);
             HelpSection helpSection = new HelpSection();
             helpSection.setHelpId(helpId);
             helpSection.setTitle(title.trim());
             helpSection.setContent(content.trim());
+            helpSection.setRoleId(roleId);
 
             boolean success = updateHelpSection(helpSection);
 
@@ -228,6 +297,8 @@ public class HelpServlet extends HttpServlet {
                 response.sendRedirect("help.jsp?error=Failed to update help section.");
             }
 
+        } catch (NumberFormatException e) {
+            response.sendRedirect("help.jsp?error=Invalid role ID.");
         } catch (Exception e) {
             // eventManager.logEvent("Help section update error: " + e.getMessage(), "ERROR"); // Removed
             response.sendRedirect("help.jsp?error=Error updating help section: " + e.getMessage());
@@ -277,7 +348,22 @@ public class HelpServlet extends HttpServlet {
     private void handleListHelpSections(HttpServletRequest request, HttpServletResponse response, HttpSession session)
             throws ServletException, IOException {
         try {
-            List<HelpSection> helpSections = getAllHelpSections();
+            String userRole = (String) session.getAttribute("role");
+            List<HelpSection> helpSections;
+            
+            if ("ADMIN".equals(userRole)) {
+                // Admin can see all help sections
+                helpSections = getAllHelpSections();
+            } else {
+                // Get role_id for the current user's role
+                int roleId = getRoleIdByName(userRole);
+                if (roleId > 0) {
+                    helpSections = getHelpSectionsByRole(roleId);
+                } else {
+                    helpSections = new ArrayList<>();
+                }
+            }
+            
             request.setAttribute("helpSections", helpSections);
             request.getRequestDispatcher("help.jsp").forward(request, response);
 
