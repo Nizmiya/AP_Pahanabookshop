@@ -1,5 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="com.booking.HelpServlet.HelpSection"%>
+<%@page import="com.booking.UserServlet.UserRole"%>
 <%@page import="java.util.*"%>
 <!DOCTYPE html>
 <html>
@@ -663,6 +664,37 @@
                         </div>
                         
                         <div class="form-group">
+                            <label for="role_id" class="form-label">Role *</label>
+                            <select class="form-control" id="role_id" name="role_id" required>
+                                <option value="">Select Role</option>
+                                <%
+                                    // Get user roles for the dropdown
+                                    com.booking.UserRoleServlet userRoleServlet = new com.booking.UserRoleServlet();
+                                    List<UserRole> userRoles = userRoleServlet.getAllUserRoles();
+                                    if (userRoles != null) {
+                                        for (UserRole userRole : userRoles) {
+                                            // Only show roles that the current user can create help for
+                                            boolean canCreate = false;
+                                            if ("ADMIN".equals(role)) {
+                                                canCreate = true; // Admin can create help for all roles
+                                            } else if ("MANAGER".equals(role)) {
+                                                canCreate = "CASHIER".equals(userRole.getRoleName()) || 
+                                                           "CUSTOMER".equals(userRole.getRoleName());
+                                            }
+                                            
+                                            if (canCreate) {
+                                %>
+                                <option value="<%= userRole.getRoleId() %>"><%= userRole.getRoleName() %></option>
+                                <%
+                                            }
+                                        }
+                                    }
+                                %>
+                            </select>
+                            <div class="invalid-feedback" id="roleError"></div>
+                        </div>
+                        
+                        <div class="form-group">
                             <button type="submit" class="btn btn-primary">
                                 <i class="bi bi-save"></i> Create Help Section
                             </button>
@@ -684,12 +716,15 @@
                 let isValid = true;
                 const title = document.getElementById('title').value.trim();
                 const content = document.getElementById('content').value.trim();
+                const roleId = document.getElementById('role_id').value;
                 
                 // Reset previous errors
                 document.getElementById('title').classList.remove('is-invalid');
                 document.getElementById('content').classList.remove('is-invalid');
+                document.getElementById('role_id').classList.remove('is-invalid');
                 document.getElementById('titleError').textContent = '';
                 document.getElementById('contentError').textContent = '';
+                document.getElementById('roleError').textContent = '';
                 
                 // Validate title
                 if (!title) {
@@ -706,6 +741,13 @@
                 if (!content) {
                     document.getElementById('content').classList.add('is-invalid');
                     document.getElementById('contentError').textContent = 'Content is required';
+                    isValid = false;
+                }
+                
+                // Validate role
+                if (!roleId) {
+                    document.getElementById('role_id').classList.add('is-invalid');
+                    document.getElementById('roleError').textContent = 'Role is required';
                     isValid = false;
                 }
                 

@@ -332,7 +332,9 @@ public class DatabaseUtil {
         String createTableSQL = "CREATE TABLE help_sections ("
                 + "help_id INT PRIMARY KEY AUTO_INCREMENT,"
                 + "title VARCHAR(150) NOT NULL,"
-                + "content TEXT NOT NULL"
+                + "content TEXT NOT NULL,"
+                + "role_id INT NOT NULL,"
+                + "FOREIGN KEY (role_id) REFERENCES user_roles(role_id)"
                 + ")";
 
         System.out.println("Creating help_sections table...");
