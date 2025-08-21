@@ -674,6 +674,24 @@
         <!-- Bootstrap JS -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
+        <!-- Custom Modal for Messages -->
+        <div class="modal fade" id="messageModal" tabindex="-1" aria-labelledby="messageModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="messageModalLabel">Message</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="messageModalBody">
+                        <!-- Message content will be inserted here -->
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Custom JavaScript -->
         <script>
             // Force reload to clear cache
@@ -730,6 +748,40 @@
                 }
             });
             
+            // Function to show modal messages
+            function showModalMessage(title, message, isSuccess = true) {
+                console.log('🔔 showModalMessage called:', { title, message, isSuccess });
+                
+                const modalElement = document.getElementById('messageModal');
+                if (!modalElement) {
+                    console.error('❌ Modal element not found!');
+                    return;
+                }
+                
+                const modal = new bootstrap.Modal(modalElement);
+                const modalTitle = document.getElementById('messageModalLabel');
+                const modalBody = document.getElementById('messageModalBody');
+                
+                if (!modalTitle || !modalBody) {
+                    console.error('❌ Modal title or body not found!');
+                    return;
+                }
+                
+                modalTitle.textContent = title;
+                modalBody.innerHTML = message;
+                
+                // Set modal header color based on message type
+                const modalHeader = document.querySelector('#messageModal .modal-header');
+                if (isSuccess) {
+                    modalHeader.className = 'modal-header bg-success text-white';
+                } else {
+                    modalHeader.className = 'modal-header bg-danger text-white';
+                }
+                
+                console.log('✅ Showing modal with:', { title, message });
+                modal.show();
+            }
+            
             // Password Reset Functions
             function showPasswordResetForm() {
                 hideAllForms();
@@ -751,7 +803,7 @@
                 console.log('📧 Sending reset code for email:', email);
                 
                 if (!email) {
-                    alert('Please enter your email address.');
+                    showModalMessage('Error', 'Please enter your email address.', false);
                     return;
                 }
                 
@@ -762,16 +814,16 @@
                             const response = JSON.parse(xhr.responseText);
                             console.log('📧 Server response:', response);
                             if (response.success) {
-                                alert(response.message);
+                                showModalMessage('Success', response.message, true);
                                 // Show code entry form
                                 hideAllForms();
                                 document.getElementById('resetCodeForm').classList.remove('hidden');
                             } else {
-                                alert(response.message);
+                                showModalMessage('Error', response.message, false);
                             }
                         } catch (e) {
                             console.error('📧 Error parsing response:', e);
-                            alert('An error occurred. Please try again.');
+                            showModalMessage('Error', 'An error occurred. Please try again.', false);
                         }
                     }
                 };
@@ -790,12 +842,12 @@
                 console.log('🔍 Reset code entered:', resetCode);
                 
                 if (!resetCode) {
-                    alert('Please enter the reset code.');
+                    showModalMessage('Error', 'Please enter the reset code.', false);
                     return;
                 }
                 
                 if (!email) {
-                    alert('Email not found. Please try the reset process again.');
+                    showModalMessage('Error', 'Email not found. Please try the reset process again.', false);
                     return;
                 }
                 
@@ -806,16 +858,16 @@
                             const response = JSON.parse(xhr.responseText);
                             console.log('🔍 Server response:', response);
                             if (response.success) {
-                                alert(response.message);
+                                showModalMessage('Success', response.message, true);
                                 // Show new password form
                                 hideAllForms();
                                 document.getElementById('newPasswordForm').classList.remove('hidden');
                             } else {
-                                alert(response.message);
+                                showModalMessage('Error', response.message, false);
                             }
                         } catch (e) {
                             console.error('🔍 Error parsing response:', e);
-                            alert('An error occurred. Please try again.');
+                            showModalMessage('Error', 'An error occurred. Please try again.', false);
                         }
                     }
                 };
@@ -832,17 +884,17 @@
                 const confirmPassword = document.getElementById('confirmPassword').value.trim();
                 
                 if (!newPassword || !confirmPassword) {
-                    alert('Please enter both password fields.');
+                    showModalMessage('Error', 'Please enter both password fields.', false);
                     return;
                 }
                 
                 if (newPassword !== confirmPassword) {
-                    alert('Passwords do not match.');
+                    showModalMessage('Error', 'Passwords do not match.', false);
                     return;
                 }
                 
                 if (newPassword.length < 6) {
-                    alert('Password must be at least 6 characters long.');
+                    showModalMessage('Error', 'Password must be at least 6 characters long.', false);
                     return;
                 }
                 
@@ -852,7 +904,6 @@
                         try {
                             const response = JSON.parse(xhr.responseText);
                             if (response.success) {
-                                alert(response.message);
                                 // Show login form
                                 showLoginForm();
                                 // Clear all forms
@@ -860,11 +911,18 @@
                                 document.getElementById('resetCode').value = '';
                                 document.getElementById('newPassword').value = '';
                                 document.getElementById('confirmPassword').value = '';
+                                
+                                // Show success message as popup (like email sent message)
+                                console.log('🎉 Password reset successful, showing popup message');
+                                const messageText = response.message || 'Password updated successfully!';
+                                console.log('📝 Message text:', messageText);
+                                showModalMessage('Success', messageText, true);
+                                
                             } else {
-                                alert(response.message);
+                                showModalMessage('Error', response.message, false);
                             }
                         } catch (e) {
-                            alert('An error occurred. Please try again.');
+                            showModalMessage('Error', 'An error occurred. Please try again.', false);
                         }
                     }
                 };
