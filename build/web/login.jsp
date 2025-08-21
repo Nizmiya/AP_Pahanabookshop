@@ -542,7 +542,7 @@
                             </div>
 
                             <div class="forgot-password">
-                                <a href="#">Forgot your password?</a>
+                                <a href="#" onclick="showPasswordResetForm()">Forgot your password?</a>
                             </div>
 
                             <button type="submit" class="btn-login">Log In</button>
@@ -602,12 +602,95 @@
                             <a href="#" onclick="showLoginForm()">Already have an account? Log in</a>
                         </div>
                     </div>
+                    
+                    <!-- Password Reset Form - Step 1: Enter Email -->
+                    <div id="passwordResetForm" class="hidden">
+                        <h1 class="form-title">Reset Password</h1>
+                        <p class="form-subtitle">Enter your email to receive a reset code</p>
+
+                        <form id="emailForm">
+                            <div class="form-group">
+                                <input type="email" class="form-control" id="resetEmail" name="email" placeholder="Enter your email address" required>
+                            </div>
+                            <button type="button" class="btn-login" onclick="sendResetCode()">Send Reset Code</button>
+                        </form>
+
+                        <div class="form-toggle">
+                            <a href="#" onclick="showLoginForm()">Back to Login</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Password Reset Form - Step 2: Enter Code -->
+                    <div id="resetCodeForm" class="hidden">
+                        <h1 class="form-title">Enter Reset Code</h1>
+                        <p class="form-subtitle">Enter the 6-digit code sent to your email</p>
+
+                        <form id="codeForm">
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="resetCode" name="resetCode" placeholder="Enter 6-digit code" maxlength="6" required>
+                                <small style="color: #6c757d; font-size: 0.75rem;">Enter the 6-digit reset code sent to your email</small>
+                            </div>
+                            <button type="button" class="btn-login" onclick="verifyResetCode()">Verify Code</button>
+                        </form>
+
+                        <div class="form-toggle">
+                            <a href="#" onclick="showPasswordResetForm()">Back to Email</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Password Reset Form - Step 3: New Password -->
+                    <div id="newPasswordForm" class="hidden">
+                        <h1 class="form-title">Set New Password</h1>
+                        <p class="form-subtitle">Enter your new password</p>
+
+                        <form id="passwordForm">
+                            <div class="form-group">
+                                <div class="password-container">
+                                    <input type="password" class="form-control" id="newPassword" name="newPassword" placeholder="Enter new password" required>
+                                    <button type="button" class="password-toggle" onclick="togglePasswordVisibility('newPassword')">
+                                        <i class="bi bi-eye-slash" id="new-password-toggle-icon"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="password-container">
+                                    <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirm new password" required>
+                                    <button type="button" class="password-toggle" onclick="togglePasswordVisibility('confirmPassword')">
+                                        <i class="bi bi-eye-slash" id="confirm-password-toggle-icon"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <button type="button" class="btn-login" onclick="resetPassword()">Reset Password</button>
+                        </form>
+
+                        <div class="form-toggle">
+                            <a href="#" onclick="showLoginForm()">Back to Login</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
         <!-- Bootstrap JS -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+        <!-- Custom Modal for Messages -->
+        <div class="modal fade" id="messageModal" tabindex="-1" aria-labelledby="messageModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="messageModalLabel">Message</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="messageModalBody">
+                        <!-- Message content will be inserted here -->
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- Custom JavaScript -->
         <script>
@@ -621,12 +704,12 @@
             }
 
             function showLoginForm() {
+                hideAllForms();
                 document.getElementById('loginForm').classList.remove('hidden');
-                document.getElementById('registerForm').classList.add('hidden');
             }
 
             function showRegisterForm() {
-                document.getElementById('loginForm').classList.add('hidden');
+                hideAllForms();
                 document.getElementById('registerForm').classList.remove('hidden');
             }
 
@@ -664,6 +747,190 @@
                     }, 5000); // 5 seconds
                 }
             });
+            
+            // Function to show modal messages
+            function showModalMessage(title, message, isSuccess = true) {
+                console.log('🔔 showModalMessage called:', { title, message, isSuccess });
+                
+                const modalElement = document.getElementById('messageModal');
+                if (!modalElement) {
+                    console.error('❌ Modal element not found!');
+                    return;
+                }
+                
+                const modal = new bootstrap.Modal(modalElement);
+                const modalTitle = document.getElementById('messageModalLabel');
+                const modalBody = document.getElementById('messageModalBody');
+                
+                if (!modalTitle || !modalBody) {
+                    console.error('❌ Modal title or body not found!');
+                    return;
+                }
+                
+                modalTitle.textContent = title;
+                modalBody.innerHTML = message;
+                
+                // Set modal header color based on message type
+                const modalHeader = document.querySelector('#messageModal .modal-header');
+                if (isSuccess) {
+                    modalHeader.className = 'modal-header bg-success text-white';
+                } else {
+                    modalHeader.className = 'modal-header bg-danger text-white';
+                }
+                
+                console.log('✅ Showing modal with:', { title, message });
+                modal.show();
+            }
+            
+            // Password Reset Functions
+            function showPasswordResetForm() {
+                hideAllForms();
+                document.getElementById('passwordResetForm').classList.remove('hidden');
+            }
+            
+            function hideAllForms() {
+                document.getElementById('loginForm').classList.add('hidden');
+                document.getElementById('registerForm').classList.add('hidden');
+                document.getElementById('passwordResetForm').classList.add('hidden');
+                document.getElementById('resetCodeForm').classList.add('hidden');
+                document.getElementById('newPasswordForm').classList.add('hidden');
+            }
+            
+            function sendResetCode() {
+                const email = document.getElementById('resetEmail').value.trim();
+                
+                // Debug logging
+                console.log('📧 Sending reset code for email:', email);
+                
+                if (!email) {
+                    showModalMessage('Error', 'Please enter your email address.', false);
+                    return;
+                }
+                
+                const xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === 4) {
+                        try {
+                            const response = JSON.parse(xhr.responseText);
+                            console.log('📧 Server response:', response);
+                            if (response.success) {
+                                showModalMessage('Success', response.message, true);
+                                // Show code entry form
+                                hideAllForms();
+                                document.getElementById('resetCodeForm').classList.remove('hidden');
+                            } else {
+                                showModalMessage('Error', response.message, false);
+                            }
+                        } catch (e) {
+                            console.error('📧 Error parsing response:', e);
+                            showModalMessage('Error', 'An error occurred. Please try again.', false);
+                        }
+                    }
+                };
+                
+                xhr.open('POST', 'PasswordResetServlet?action=sendResetCode', true);
+                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                xhr.send('email=' + encodeURIComponent(email));
+            }
+            
+            function verifyResetCode() {
+                const email = document.getElementById('resetEmail').value.trim();
+                const resetCode = document.getElementById('resetCode').value.trim();
+                
+                // Debug logging
+                console.log('🔍 Verifying code for email:', email);
+                console.log('🔍 Reset code entered:', resetCode);
+                
+                if (!resetCode) {
+                    showModalMessage('Error', 'Please enter the reset code.', false);
+                    return;
+                }
+                
+                if (!email) {
+                    showModalMessage('Error', 'Email not found. Please try the reset process again.', false);
+                    return;
+                }
+                
+                const xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === 4) {
+                        try {
+                            const response = JSON.parse(xhr.responseText);
+                            console.log('🔍 Server response:', response);
+                            if (response.success) {
+                                showModalMessage('Success', response.message, true);
+                                // Show new password form
+                                hideAllForms();
+                                document.getElementById('newPasswordForm').classList.remove('hidden');
+                            } else {
+                                showModalMessage('Error', response.message, false);
+                            }
+                        } catch (e) {
+                            console.error('🔍 Error parsing response:', e);
+                            showModalMessage('Error', 'An error occurred. Please try again.', false);
+                        }
+                    }
+                };
+                
+                xhr.open('POST', 'PasswordResetServlet?action=verifyResetCode', true);
+                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                xhr.send('email=' + encodeURIComponent(email) + '&resetCode=' + encodeURIComponent(resetCode));
+            }
+            
+            function resetPassword() {
+                const email = document.getElementById('resetEmail').value.trim();
+                const resetCode = document.getElementById('resetCode').value.trim();
+                const newPassword = document.getElementById('newPassword').value.trim();
+                const confirmPassword = document.getElementById('confirmPassword').value.trim();
+                
+                if (!newPassword || !confirmPassword) {
+                    showModalMessage('Error', 'Please enter both password fields.', false);
+                    return;
+                }
+                
+                if (newPassword !== confirmPassword) {
+                    showModalMessage('Error', 'Passwords do not match.', false);
+                    return;
+                }
+                
+                if (newPassword.length < 6) {
+                    showModalMessage('Error', 'Password must be at least 6 characters long.', false);
+                    return;
+                }
+                
+                const xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === 4) {
+                        try {
+                            const response = JSON.parse(xhr.responseText);
+                            if (response.success) {
+                                // Show login form
+                                showLoginForm();
+                                // Clear all forms
+                                document.getElementById('resetEmail').value = '';
+                                document.getElementById('resetCode').value = '';
+                                document.getElementById('newPassword').value = '';
+                                document.getElementById('confirmPassword').value = '';
+                                
+                                // Show success message as popup (like email sent message)
+                                console.log('🎉 Password reset successful, showing popup message');
+                                const messageText = response.message || 'Password updated successfully!';
+                                console.log('📝 Message text:', messageText);
+                                showModalMessage('Success', messageText, true);
+                                
+                            } else {
+                                showModalMessage('Error', response.message, false);
+                            }
+                        } catch (e) {
+                            showModalMessage('Error', 'An error occurred. Please try again.', false);
+                        }
+                    }
+                };
+                
+                xhr.open('POST', 'PasswordResetServlet?action=resetPassword', true);
+                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                xhr.send('email=' + encodeURIComponent(email) + '&resetCode=' + encodeURIComponent(resetCode) + '&newPassword=' + encodeURIComponent(newPassword));
+            }
         </script>
     </body>
 </html>

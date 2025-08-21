@@ -448,6 +448,11 @@
                 box-shadow: 0 6px 20px rgba(220, 53, 69, 0.4);
                 text-decoration: none;
             }
+            
+            /* Ensure all icons in buttons are white */
+            .btn i {
+                color: var(--white) !important;
+            }
 
             .ms-2 {
                 margin-left: 0.5rem !important;
@@ -785,12 +790,23 @@
                                     <span>ID: <%= helpSection.getHelpId() %></span>
                                 </div>
                                 <div class="info-item">
-                                    <i class="bi bi-calendar"></i>
-                                    <span>Created: <%= helpSection.getCreatedAt() != null ? helpSection.getCreatedAt().toString() : "N/A" %></span>
-                                </div>
-                                <div class="info-item">
-                                    <i class="bi bi-person"></i>
-                                    <span>Created by: <%= helpSection.getCreatedBy() != null ? helpSection.getCreatedBy() : "System" %></span>
+                                    <i class="bi bi-tag"></i>
+                                    <span>Role: 
+                                        <%
+                                            // Get role name for display
+                                            String roleName = "";
+                                            try {
+                                                com.booking.UserRoleServlet userRoleServlet = new com.booking.UserRoleServlet();
+                                                com.booking.UserServlet.UserRole userRole = userRoleServlet.getUserRoleById(helpSection.getRoleId());
+                                                if (userRole != null) {
+                                                    roleName = userRole.getRoleName();
+                                                }
+                                            } catch (Exception e) {
+                                                roleName = "Unknown";
+                                            }
+                                        %>
+                                        <%= roleName %>
+                                    </span>
                                 </div>
                             </div>
                         </div>

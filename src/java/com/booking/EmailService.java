@@ -94,6 +94,36 @@ public class EmailService {
             return sendMockEmail(toEmail, verificationCode);
         }
     }
+    
+    /**
+     * Send password reset email to the specified email address.
+     * Falls back to mock (console print) if jakarta.mail/SMTP fails.
+     */
+    public boolean sendPasswordResetEmail(String toEmail, String resetCode) {
+        if (session == null) {
+            System.out.println("⚠ Real email session not available. Using mock service.");
+            return sendMockPasswordResetEmail(toEmail, resetCode);
+        }
+
+        try {
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(FROM_EMAIL));
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toEmail));
+            message.setSubject("Password Reset - BookShop");
+
+            String emailContent = buildPasswordResetEmailContent(resetCode);
+            message.setContent(emailContent, "text/html; charset=UTF-8");
+
+            Transport.send(message);
+            System.out.println("✓ Password reset email sent to: " + toEmail + " (jakarta.mail/Angus)");
+            return true;
+        } catch (MessagingException e) {
+            System.err.println("✗ SMTP send failed: " + e.getMessage());
+            e.printStackTrace();
+            System.out.println("↻ Falling back to mock email service");
+            return sendMockPasswordResetEmail(toEmail, resetCode);
+        }
+    }
 
     /**
      * Send mock email (prints to console)
@@ -102,6 +132,19 @@ public class EmailService {
         System.out.println("=== MOCK EMAIL VERIFICATION ===");
         System.out.println("To: " + toEmail);
         System.out.println("Verification Code: " + verificationCode);
+        System.out.println("================================");
+        System.out.println("Note: This is a mock email. To send real emails, ensure angus-mail and jakarta.activation are in WEB-INF/lib and rebuild.");
+        System.out.println("================================================");
+        return true;
+    }
+    
+    /**
+     * Send mock password reset email (prints to console)
+     */
+    private boolean sendMockPasswordResetEmail(String toEmail, String resetCode) {
+        System.out.println("=== MOCK PASSWORD RESET EMAIL ===");
+        System.out.println("To: " + toEmail);
+        System.out.println("Reset Code: " + resetCode);
         System.out.println("================================");
         System.out.println("Note: This is a mock email. To send real emails, ensure angus-mail and jakarta.activation are in WEB-INF/lib and rebuild.");
         System.out.println("================================================");
@@ -133,6 +176,41 @@ public class EmailService {
                 "<p>Use the following verification code to continue:</p>" +
                 "<div class='verification-code'>" + verificationCode + "</div>" +
                 "<p>If you didn't request this verification, please ignore this email.</p>" +
+                "<p>Best regards,<br>The BookShop Team</p>" +
+                "</div>" +
+                "<div class='footer'>" +
+                "<p>This is an automated message, please do not reply.</p>" +
+                "</div>" +
+                "</div>" +
+                "</body>" +
+                "</html>";
+    }
+    
+    private String buildPasswordResetEmailContent(String resetCode) {
+        return "<!DOCTYPE html>" +
+                "<html>" +
+                "<head>" +
+                "<meta charset='UTF-8'>" +
+                "<title>Password Reset</title>" +
+                "<style>" +
+                "body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }" +
+                ".container { max-width: 600px; margin: 0 auto; padding: 20px; }" +
+                ".header { background: linear-gradient(135deg, #dc3545 0%, #c82333 100%); color: white; padding: 20px; text-align: center; border-radius: 8px 8px 0 0; }" +
+                ".content { background: #f8f9fa; padding: 30px; border-radius: 0 0 8px 8px; }" +
+                ".reset-code { background: #e9ecef; padding: 15px; text-align: center; font-size: 24px; font-weight: bold; color: #dc3545; border-radius: 5px; margin: 20px 0; }" +
+                ".footer { text-align: center; margin-top: 20px; color: #6c757d; font-size: 14px; }" +
+                "</style>" +
+                "</head>" +
+                "<body>" +
+                "<div class='container'>" +
+                "<div class='header'>" +
+                "<h1>BookShop Password Reset</h1>" +
+                "</div>" +
+                "<div class='content'>" +
+                "<p>Hello!</p>" +
+                "<p>You have requested to reset your password. Use the following reset code to continue:</p>" +
+                "<div class='reset-code'>" + resetCode + "</div>" +
+                "<p>If you didn't request this password reset, please ignore this email and your password will remain unchanged.</p>" +
                 "<p>Best regards,<br>The BookShop Team</p>" +
                 "</div>" +
                 "<div class='footer'>" +
